@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Evolution of AI — A Visual Timeline by Dominic Ndondo</title>
+  <meta name="description" content="An original visual timeline of artificial intelligence: from Turing and the Dartmouth workshop through two AI winters to deep learning and the generative AI era.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eceae4;
+      --surface: #f7f6f2;
+      --ink: #22303a;
+      --muted: #5c6b76;
+      --border: #d5d1c7;
+      --line: #b9b3a6;
+      /* era colors */
+      --c-foundations: #0f5e54;   /* deep teal */
+      --c-winter: #5b7fa6;        /* cold blue */
+      --c-boom: #a2652c;          /* amber-brown */
+      --c-quiet: #6b6f42;         /* olive */
+      --c-deep: #6e4a8e;          /* violet */
+      --c-gen: #a63d55;           /* crimson */
+      --radius: 12px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .container { width: min(960px, 93%); margin: 0 auto; }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 4rem 0 2.5rem;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 0%, rgba(15, 94, 84, 0.09), transparent);
+    }
+    header .kicker {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-foundations);
+      border: 1px solid var(--c-foundations);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      line-height: 1.1;
+      margin-bottom: 0.9rem;
+    }
+    header .sub {
+      color: var(--muted);
+      max-width: 40rem;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* Era legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1.5rem 0 0.5rem;
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .legend i {
+      width: 10px; height: 10px; border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding: 3rem 0 4rem;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 3px;
+      transform: translateX(-50%);
+      background: var(--line);
+      border-radius: 2px;
+    }
+
+    .event {
+      position: relative;
+      width: 50%;
+      padding: 0 2.6rem 2.4rem 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .event.visible { opacity: 1; transform: translateY(0); }
+    .event:nth-of-type(even) {
+      left: 50%;
+      padding: 0 0 2.4rem 2.6rem;
+    }
+    .event::after {
+      content: "";
+      position: absolute;
+      top: 0.45rem;
+      right: -9px;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--dot, var(--c-foundations));
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--dot, var(--c-foundations));
+      z-index: 2;
+    }
+    .event:nth-of-type(even)::after { right: auto; left: -8px; }
+
+    .event .year {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--dot, var(--c-foundations));
+      margin-bottom: 0.3rem;
+    }
+    .event .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--dot, var(--c-foundations));
+      border-radius: var(--radius);
+      padding: 1.15rem 1.3rem;
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    .event h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .event p { font-size: 0.92rem; color: var(--muted); }
+    .event .who {
+      display: block;
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+    }
+    .event .who::before { content: "Key players: "; color: var(--dot); }
+
+    /* Era band (full width, e.g., AI winters) */
+    .era-band {
+      position: relative;
+      z-index: 3;
+      margin: 0 auto 2.4rem;
+      width: min(680px, 100%);
+      text-align: center;
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .era-band.visible { opacity: 1; transform: translateY(0); }
+    .era-band h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
+    }
+    .era-band p { font-size: 0.92rem; opacity: 0.92; }
+
+    /* Footer / sources */
+    .sources {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 3.5rem;
+    }
+    .sources h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .sources ul { list-style: none; }
+    .sources li {
+      margin-bottom: 0.9rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+      padding-left: 1.4rem;
+      position: relative;
+    }
+    .sources li::before {
+      content: "▸";
+      position: absolute; left: 0;
+      color: var(--c-foundations);
+    }
+    .sources a { color: var(--c-foundations); }
+    .credit {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .credit a { color: var(--c-foundations); font-weight: 600; }
+
+    @media (max-width: 700px) {
+      .timeline::before { left: 10px; }
+      .event, .event:nth-of-type(even) {
+        width: 100%;
+        left: 0;
+        padding: 0 0 2rem 2.2rem;
+      }
+      .event::after, .event:nth-of-type(even)::after { left: 2px; right: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <span class="kicker">AIML-500 · Workshop One · Visual Timeline</span>
+      <h1>The Evolution of Artificial Intelligence</h1>
+      <p class="sub">
+        Seventy-five years of ambition, collapse, and breakthrough — from Alan Turing's question
+        "Can machines think?" to the generative AI race reshaping every industry.
+      </p>
+      <div class="legend">
+        <span><i style="background:var(--c-foundations)"></i> Foundations</span>
+        <span><i style="background:var(--c-winter)"></i> AI Winters</span>
+        <span><i style="background:var(--c-boom)"></i> Expert Systems Boom</span>
+        <span><i style="background:var(--c-quiet)"></i> Quiet Progress</span>
+        <span><i style="background:var(--c-deep)"></i> Deep Learning Era</span>
+        <span><i style="background:var(--c-gen)"></i> Generative AI Era</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="timeline">
+
+      <div class="event" style="--dot: var(--c-foundations)">
+        <div class="year">1950</div>
+        <div class="card">
+          <h3>Turing asks: "Can machines think?"</h3>
+          <p>Alan Turing publishes <em>Computing Machinery and Intelligence</em>, proposing the "imitation game" — the Turing Test — as a practical measure of machine intelligence. The wartime code-breaker becomes the field's founding thinker.</p>
+          <span class="who">Alan Turing</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-foundations)">
+        <div class="year">1956</div>
+        <div class="card">
+          <h3>The Dartmouth Workshop — AI gets its name</h3>
+          <p>John McCarthy coins the term "artificial intelligence" at a summer workshop at Dartmouth College. The founders predict machines will match human intelligence within a generation — optimism that will define, and haunt, the field.</p>
+          <span class="who">John McCarthy, Marvin Minsky, Claude Shannon, Nathaniel Rochester</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-foundations)">
+        <div class="year">1957</div>
+        <div class="card">
+          <h3>The Perceptron — the first neural network</h3>
+          <p>Frank Rosenblatt builds the Perceptron, a machine that learns from data by adjusting weighted connections — the ancestor of every modern neural network. The New York Times reports it may one day "walk, talk, see, and write."</p>
+          <span class="who">Frank Rosenblatt</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-foundations)">
+        <div class="year">1966</div>
+        <div class="card">
+          <h3>ELIZA — the first chatbot</h3>
+          <p>Joseph Weizenbaum's ELIZA mimics a psychotherapist using simple pattern matching. Users pour their hearts out to it — an early warning of how easily humans attribute understanding to machines.</p>
+          <span class="who">Joseph Weizenbaum (MIT)</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-foundations)">
+        <div class="year">1969</div>
+        <div class="card">
+          <h3>"Perceptrons" exposes the limits</h3>
+          <p>Minsky and Papert prove mathematically that single-layer perceptrons cannot solve simple problems like XOR. Neural network research funding dries up almost overnight — symbolic, logic-based AI dominates instead.</p>
+          <span class="who">Marvin Minsky, Seymour Papert</span>
+        </div>
+      </div>
+
+      <div class="era-band" style="background: linear-gradient(135deg, #4a6b8f, #5b7fa6)">
+        <h3>❄ The First AI Winter (1974–1980)</h3>
+        <p>Grand promises collide with tiny computers. The UK's Lighthill Report (1973) concludes AI has failed to deliver; DARPA slashes funding in the US. <strong>Cause:</strong> hype outran hardware — there simply wasn't enough computing power. <strong>Impact:</strong> research funding and talent drain from the field for half a decade.</p>
+      </div>
+
+      <div class="event" style="--dot: var(--c-boom)">
+        <div class="year">1980</div>
+        <div class="card">
+          <h3>Expert systems bring AI to business</h3>
+          <p>Rule-based "expert systems" encode human specialist knowledge. DEC's XCON system saves the company an estimated $40M a year configuring computer orders, and corporations worldwide rush to build their own.</p>
+          <span class="who">Edward Feigenbaum, Digital Equipment Corporation</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-boom)">
+        <div class="year">1982</div>
+        <div class="card">
+          <h3>Japan's Fifth Generation Project</h3>
+          <p>Japan commits $850M to build intelligent computers, triggering competitive AI funding programs in the US and UK. Symbolic AI reaches its commercial peak.</p>
+          <span class="who">Japan's MITI</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-boom)">
+        <div class="year">1986</div>
+        <div class="card">
+          <h3>Backpropagation revives neural networks</h3>
+          <p>Rumelhart, Hinton, and Williams popularize backpropagation, showing how to train <em>multi-layer</em> networks — solving the very limitation Minsky exposed in 1969. Connectionism quietly returns from exile.</p>
+          <span class="who">David Rumelhart, Geoffrey Hinton, Ronald Williams</span>
+        </div>
+      </div>
+
+      <div class="era-band" style="background: linear-gradient(135deg, #46628a, #5b7fa6)">
+        <h3>❄ The Second AI Winter (1987–1993)</h3>
+        <p>The specialized LISP machine market collapses as ordinary desktop computers overtake it, and expert systems prove brittle and expensive to maintain. <strong>Cause:</strong> rigid rule-based systems couldn't adapt or scale. <strong>Impact:</strong> "AI" becomes a dirty word in funding proposals; researchers rebrand their work as "machine learning" and "informatics."</p>
+      </div>
+
+      <div class="event" style="--dot: var(--c-quiet)">
+        <div class="year">1997</div>
+        <div class="card">
+          <h3>Deep Blue defeats the world chess champion</h3>
+          <p>IBM's Deep Blue beats Garry Kasparov — the first machine victory over a reigning world champion under tournament conditions. Brute-force search plus specialized hardware puts AI back on the world's front pages.</p>
+          <span class="who">IBM, Garry Kasparov</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-quiet)">
+        <div class="year">2006</div>
+        <div class="card">
+          <h3>"Deep learning" is born — and the cloud arrives</h3>
+          <p>Geoffrey Hinton shows deep belief networks can be trained layer by layer, rebranding neural nets as "deep learning." The same year, Amazon launches AWS — the cloud computing infrastructure that will let anyone rent massive compute on demand.</p>
+          <span class="who">Geoffrey Hinton, Amazon Web Services</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-quiet)">
+        <div class="year">2009</div>
+        <div class="card">
+          <h3>ImageNet — big data for vision</h3>
+          <p>Fei-Fei Li's team publishes ImageNet, a dataset of millions of labeled images. Its annual competition becomes the proving ground where deep learning will stage its coup.</p>
+          <span class="who">Fei-Fei Li (Stanford)</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-deep)">
+        <div class="year">2012</div>
+        <div class="card">
+          <h3>AlexNet — the moment hardware caught up</h3>
+          <p>A deep neural network trained on Nvidia gaming GPUs crushes the ImageNet competition, nearly halving the error rate. Theory from the 1980s finally meets sufficient hardware — and the deep learning gold rush begins.</p>
+          <span class="who">Alex Krizhevsky, Ilya Sutskever, Geoffrey Hinton, Nvidia</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-deep)">
+        <div class="year">2016</div>
+        <div class="card">
+          <h3>AlphaGo beats Lee Sedol</h3>
+          <p>DeepMind's AlphaGo defeats the legendary Go champion 4–1, mastering a game with more board positions than atoms in the universe. Its "Move 37" — a move no human would play — shows machines can be creative, not just fast.</p>
+          <span class="who">DeepMind (Google), Demis Hassabis, Lee Sedol</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-deep)">
+        <div class="year">2017</div>
+        <div class="card">
+          <h3>"Attention Is All You Need" — the Transformer</h3>
+          <p>Google researchers publish the Transformer architecture, which processes language in parallel rather than word by word. It becomes the foundation of virtually every modern AI model — the "T" in GPT.</p>
+          <span class="who">Vaswani et al. (Google Brain)</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-gen)">
+        <div class="year">2020</div>
+        <div class="card">
+          <h3>GPT-3 — scale becomes a strategy</h3>
+          <p>OpenAI's 175-billion-parameter GPT-3 writes essays, code, and poetry from a plain-text prompt. Training compute for frontier models is now doubling roughly every six months — far faster than Moore's Law.</p>
+          <span class="who">OpenAI, Sam Altman</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-gen)">
+        <div class="year">2022</div>
+        <div class="card">
+          <h3>ChatGPT — AI goes mainstream</h3>
+          <p>ChatGPT reaches 100 million users in two months — the fastest-adopted consumer application in history at the time. Generative AI leaves the lab and lands on everyone's desk, desk drawer, and dinner-table conversation.</p>
+          <span class="who">OpenAI</span>
+        </div>
+      </div>
+
+      <div class="event" style="--dot: var(--c-gen)">
+        <div class="year">2023–25</div>
+        <div class="card">
+          <h3>The generative AI race</h3>
+          <p>GPT-4, Google's Gemini, Anthropic's Claude, and open models like Llama compete on multimodal understanding and step-by-step reasoning. Nvidia becomes one of the world's most valuable companies — hardware and algorithms, as always, advancing together.</p>
+          <span class="who">OpenAI, Google, Anthropic, Meta, Nvidia</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="sources">
+    <div class="container">
+      <h2>Sources &amp; References</h2>
+      <ul>
+        <li>Putchuon – "Put You On." (2024, May 30). <em>The entire history of artificial intelligence (Last 100 years)</em> [Video]. YouTube. <a href="https://www.youtube.com/watch?v=mSd9nmPM7Vg" rel="noopener">youtube.com/watch?v=mSd9nmPM7Vg</a></li>
+        <li>IEEE Computer Society. (n.d.). <em>The evolution of AI: From foundations to future prospects.</em> <a href="https://www.computer.org/publications/tech-news/research/evolution-of-ai" rel="noopener">computer.org/publications/tech-news/research/evolution-of-ai</a></li>
+        <li>Roser, M., &amp; Our World in Data. (n.d.). <em>A brief history of artificial intelligence.</em> Our World in Data. <a href="https://ourworldindata.org/brief-history-of-ai" rel="noopener">ourworldindata.org/brief-history-of-ai</a></li>
+      </ul>
+      <div class="credit">
+        <p>
+          An original visual timeline created by <a href="../../about.html">Dominic Ndondo</a> for
+          AIML-500 (Machine Learning Fundamentals), Indiana Wesleyan University — July 2026.
+          Research was assisted by AI tools (Anthropic's Claude), per the assignment's guidance on
+          disclosing AI assistance; all events were cross-checked against the sources above.
+          Designed and hand-coded in HTML &amp; CSS. Part of my
+          <a href="../../artifacts/artifact-2.html">professional portfolio</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.event, .era-band').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
