@@ -68,29 +68,50 @@
       font-size: 1.05rem;
     }
 
-    /* Era legend */
+    /* Era legend — sticky bar that follows the reader down the page */
+    .legend-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(236, 234, 228, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
     .legend {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.6rem;
-      padding: 1.5rem 0 0.5rem;
+      gap: 0.5rem;
+      padding: 0.65rem 0;
     }
     .legend span {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 999px;
-      padding: 0.3rem 0.85rem;
-      font-size: 0.8rem;
+      padding: 0.28rem 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
       color: var(--muted);
+      transition: border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.25s;
     }
     .legend i {
       width: 10px; height: 10px; border-radius: 50%;
       display: inline-block;
+      flex-shrink: 0;
+    }
+    /* Chip for the era currently in view */
+    .legend span.active {
+      border-color: var(--chip, var(--ink));
+      box-shadow: 0 0 0 1px var(--chip, var(--ink));
+      color: var(--ink);
+      font-weight: 600;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 700px) {
+      .legend span { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
     }
 
     /* Timeline */
@@ -240,21 +261,24 @@
         Seventy-five years of ambition, collapse, and breakthrough — from Alan Turing's question
         "Can machines think?" to the generative AI race reshaping every industry.
       </p>
-      <div class="legend">
-        <span><i style="background:var(--c-foundations)"></i> Foundations</span>
-        <span><i style="background:var(--c-winter)"></i> AI Winters</span>
-        <span><i style="background:var(--c-boom)"></i> Expert Systems Boom</span>
-        <span><i style="background:var(--c-quiet)"></i> Quiet Progress</span>
-        <span><i style="background:var(--c-deep)"></i> Deep Learning Era</span>
-        <span><i style="background:var(--c-gen)"></i> Generative AI Era</span>
-      </div>
     </div>
   </header>
+
+  <div class="legend-bar">
+    <div class="container legend">
+      <span data-era="foundations" style="--chip: var(--c-foundations)"><i style="background:var(--c-foundations)"></i> Foundations</span>
+      <span data-era="winter" style="--chip: var(--c-winter)"><i style="background:var(--c-winter)"></i> AI Winters</span>
+      <span data-era="boom" style="--chip: var(--c-boom)"><i style="background:var(--c-boom)"></i> Expert Systems Boom</span>
+      <span data-era="quiet" style="--chip: var(--c-quiet)"><i style="background:var(--c-quiet)"></i> Quiet Progress</span>
+      <span data-era="deep" style="--chip: var(--c-deep)"><i style="background:var(--c-deep)"></i> Deep Learning Era</span>
+      <span data-era="gen" style="--chip: var(--c-gen)"><i style="background:var(--c-gen)"></i> Generative AI Era</span>
+    </div>
+  </div>
 
   <main class="container">
     <div class="timeline">
 
-      <div class="event" style="--dot: var(--c-foundations)">
+      <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1950</div>
         <div class="card">
           <h3>Turing asks: "Can machines think?"</h3>
@@ -263,7 +287,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-foundations)">
+      <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1956</div>
         <div class="card">
           <h3>The Dartmouth Workshop — AI gets its name</h3>
@@ -272,7 +296,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-foundations)">
+      <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1957</div>
         <div class="card">
           <h3>The Perceptron — the first neural network</h3>
@@ -281,7 +305,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-foundations)">
+      <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1966</div>
         <div class="card">
           <h3>ELIZA — the first chatbot</h3>
@@ -290,7 +314,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-foundations)">
+      <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1969</div>
         <div class="card">
           <h3>"Perceptrons" exposes the limits</h3>
@@ -299,12 +323,12 @@
         </div>
       </div>
 
-      <div class="era-band" style="background: linear-gradient(135deg, #4a6b8f, #5b7fa6)">
+      <div class="era-band" data-era="winter" style="background: linear-gradient(135deg, #4a6b8f, #5b7fa6)">
         <h3>❄ The First AI Winter (1974–1980)</h3>
         <p>Grand promises collide with tiny computers. The UK's Lighthill Report (1973) concludes AI has failed to deliver; DARPA slashes funding in the US. <strong>Cause:</strong> hype outran hardware — there simply wasn't enough computing power. <strong>Impact:</strong> research funding and talent drain from the field for half a decade.</p>
       </div>
 
-      <div class="event" style="--dot: var(--c-boom)">
+      <div class="event" data-era="boom" style="--dot: var(--c-boom)">
         <div class="year">1980</div>
         <div class="card">
           <h3>Expert systems bring AI to business</h3>
@@ -313,7 +337,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-boom)">
+      <div class="event" data-era="boom" style="--dot: var(--c-boom)">
         <div class="year">1982</div>
         <div class="card">
           <h3>Japan's Fifth Generation Project</h3>
@@ -322,7 +346,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-boom)">
+      <div class="event" data-era="boom" style="--dot: var(--c-boom)">
         <div class="year">1986</div>
         <div class="card">
           <h3>Backpropagation revives neural networks</h3>
@@ -331,12 +355,12 @@
         </div>
       </div>
 
-      <div class="era-band" style="background: linear-gradient(135deg, #46628a, #5b7fa6)">
+      <div class="era-band" data-era="winter" style="background: linear-gradient(135deg, #46628a, #5b7fa6)">
         <h3>❄ The Second AI Winter (1987–1993)</h3>
         <p>The specialized LISP machine market collapses as ordinary desktop computers overtake it, and expert systems prove brittle and expensive to maintain. <strong>Cause:</strong> rigid rule-based systems couldn't adapt or scale. <strong>Impact:</strong> "AI" becomes a dirty word in funding proposals; researchers rebrand their work as "machine learning" and "informatics."</p>
       </div>
 
-      <div class="event" style="--dot: var(--c-quiet)">
+      <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">1997</div>
         <div class="card">
           <h3>Deep Blue defeats the world chess champion</h3>
@@ -345,7 +369,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-quiet)">
+      <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">2006</div>
         <div class="card">
           <h3>"Deep learning" is born — and the cloud arrives</h3>
@@ -354,7 +378,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-quiet)">
+      <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">2009</div>
         <div class="card">
           <h3>ImageNet — big data for vision</h3>
@@ -363,7 +387,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-deep)">
+      <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2012</div>
         <div class="card">
           <h3>AlexNet — the moment hardware caught up</h3>
@@ -372,7 +396,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-deep)">
+      <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2016</div>
         <div class="card">
           <h3>AlphaGo beats Lee Sedol</h3>
@@ -381,7 +405,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-deep)">
+      <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2017</div>
         <div class="card">
           <h3>"Attention Is All You Need" — the Transformer</h3>
@@ -390,7 +414,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-gen)">
+      <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2020</div>
         <div class="card">
           <h3>GPT-3 — scale becomes a strategy</h3>
@@ -399,7 +423,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-gen)">
+      <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2022</div>
         <div class="card">
           <h3>ChatGPT — AI goes mainstream</h3>
@@ -408,7 +432,7 @@
         </div>
       </div>
 
-      <div class="event" style="--dot: var(--c-gen)">
+      <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2023–25</div>
         <div class="card">
           <h3>The generative AI race</h3>
@@ -446,6 +470,18 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.15 });
     document.querySelectorAll('.event, .era-band').forEach(el => observer.observe(el));
+
+    // Highlight the legend chip for the era currently in the middle of the viewport
+    const chips = document.querySelectorAll('.legend span[data-era]');
+    const setActiveEra = (era) => {
+      chips.forEach(c => c.classList.toggle('active', c.dataset.era === era));
+    };
+    const eraObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) setActiveEra(e.target.dataset.era);
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    document.querySelectorAll('.timeline [data-era]').forEach(el => eraObserver.observe(el));
   </script>
 </body>
 </html>
