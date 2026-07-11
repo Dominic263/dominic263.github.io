@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artifact One Title — Dominic Ndondo</title>
-  <meta name="description" content="AIML-500 artifact: objective, process, tools, and value proposition.">
+  <title>Voices of Tomorrow — AI Speaker's Bureau Bot — Dominic Ndondo</title>
+  <meta name="description" content="AIML-500 artifact: a conversational AI booking assistant that matches events with the right speaker from a curated roster, grounded in verified speaker profiles.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -31,62 +31,112 @@
     <section class="page-hero">
       <div class="container">
         <p style="margin-bottom: 0.75rem;"><a href="../artifacts.html">← All artifacts</a></p>
-        <h1>Artifact One Title</h1>
-        <p class="lede"><em>Introduction:</em> <span class="todo">[One or two sentences introducing the artifact — what it is and why it exists.]</span></p>
+        <h1>Voices of Tomorrow — AI Speaker's Bureau Bot</h1>
+        <p class="lede">
+          <em>Introduction:</em> A conversational AI booking assistant that helps event
+          organizers find and book the right professional speaker from a curated roster of
+          eight — recommending the best match based on the event's topic, audience, budget,
+          and format.
+        </p>
       </div>
     </section>
 
     <div class="container artifact-layout">
       <article class="prose">
         <h2>Description</h2>
-        <p><span class="todo">[What the artifact is, in detail — what it contains, what it does, and what it looks like.]</span></p>
+        <p>
+          The Voices of Tomorrow Speaker's Bureau Bot is a custom chatbot built around a
+          structured knowledge base of eight verified speaker profiles. The roster covers a
+          wide range of topics, including artificial intelligence and machine learning,
+          personal resilience and mental health, cross-cultural leadership, food science and
+          consumer awareness, and endurance-driven decision making.
+        </p>
+        <p>
+          A user simply tells the bot their event's topic, audience, budget, and format
+          (in-person or virtual), and it recommends the best-matching speaker — complete with
+          bio, keynote topics, pricing, and travel details, pulled directly from the verified
+          speaker profiles. It also handles open-ended queries like <em>"Who can speak about
+          AI to a college audience?"</em> or <em>"Show me speakers under $2,000."</em> Whether
+          the event is a college orientation, a corporate keynote, a TEDx event, or a
+          community workshop, the bot makes finding the right voice for the stage fast and
+          easy.
+        </p>
 
         <div class="deliverable-box">
           <h3>The Deliverable</h3>
-          <p><span class="todo">[Embed or link the tangible deliverable here — screenshots, a downloadable PDF, code, a live dashboard. A description alone is not sufficient.]</span></p>
-          <!-- Example patterns:
+          <p>Screenshots of the live bot — its public profile and a real conversation:</p>
           <figure class="figure">
-            <img src="../assets/artifact-1/screenshot.png" alt="Screenshot of the deliverable">
-            <figcaption>Caption describing what's shown.</figcaption>
+            <img src="../assets/artifact-1/bot-profile.png" alt="The Voices of Tomorrow Speaker's Bureau bot profile page, showing the bot's avatar, description of the eight-speaker roster, and a Start New Chat button">
+            <figcaption>The bot's public profile: its description, roster overview, and entry point for new conversations.</figcaption>
           </figure>
-          <p><a class="btn btn-primary" href="../assets/artifact-1/deliverable.pdf" download>Download the deliverable (PDF)</a></p>
-          -->
+          <figure class="figure">
+            <img src="../assets/artifact-1/bot-chat.png" alt="A live conversation with the bot, showing its welcome message explaining the roster and prompting for the event's topic, audience, format, and budget">
+            <figcaption>A live session: the bot greets the user, explains what it can do, and asks the qualifying questions it needs to recommend a speaker.</figcaption>
+          </figure>
+          <p><span class="todo">[Optional: add a public link to try the bot live, e.g., its @VoicesOfTomorrow page.]</span></p>
         </div>
 
         <h2>Objective</h2>
-        <p><span class="todo">[Why you created it — the learning goal or problem it addresses.]</span></p>
+        <p>
+          To design and build a working, knowledge-grounded conversational AI assistant — and
+          in the process, learn how to structure a real dataset (speaker profiles), engineer a
+          system prompt that keeps the bot accurate and on-task, and shape a conversation flow
+          that gathers exactly the information needed to make a good recommendation.
+          <span class="todo">[Adjust to match the assignment's stated objective if it differs.]</span>
+        </p>
 
         <h2>Process</h2>
-        <p><span class="todo">[How you made it — the steps you took, decisions you made, and challenges you worked through.]</span></p>
+        <ol>
+          <li>Defined the use case: a speaker's bureau where organizers describe an event and receive a matched recommendation rather than browsing a list.</li>
+          <li>Created eight structured speaker profiles — bio, keynote topics, pricing, and travel details — to serve as the bot's verified knowledge base.</li>
+          <li>Engineered the system/START prompt so the bot introduces itself, asks the right qualifying questions (topic, audience, budget, format), and answers only from the verified profiles.</li>
+          <li>Tested with realistic queries (topic-based, audience-based, and budget-based) and iterated on the prompt until recommendations were consistently accurate and grounded.</li>
+        </ol>
+        <p><span class="todo">[Add or correct any steps — e.g., who "we" was if it was a team project, and how the work was divided.]</span></p>
 
         <h2>Tools &amp; Technologies Used</h2>
         <ul>
-          <li><span class="todo">[Tool 1]</span></li>
-          <li><span class="todo">[Tool 2]</span></li>
+          <li><span class="todo">[Chatbot platform — e.g., Poe, custom GPT, or other]</span></li>
+          <li>Prompt engineering (system prompt / START prompt design)</li>
+          <li>Structured knowledge-base design (speaker profile dataset)</li>
+          <li>Large language model <span class="todo">[which model powers the bot?]</span></li>
         </ul>
 
         <h2>Value Proposition</h2>
         <h3>Unique Value</h3>
-        <p><span class="todo">[What this artifact uniquely demonstrates about your skills — and how it supports your personal value proposition.]</span></p>
+        <p>
+          This artifact shows that I can take an AI capability and turn it into a finished,
+          usable product: scoping a real-world problem, structuring the data an AI system
+          needs, and engineering its behavior so answers stay grounded in verified information
+          rather than invention. It's the same engineering discipline I bring from robotics
+          and physics research, applied to conversational AI.
+        </p>
         <h3>Relevance</h3>
-        <p><span class="todo">[How this meets the needs of your target audience — employers, collaborators, or others learning from your work.]</span></p>
+        <p>
+          Organizations everywhere are trying to put AI assistants in front of customers
+          without letting them hallucinate. This project demonstrates, at a small scale, the
+          exact skills that requires — knowledge grounding, conversation design, and iterative
+          testing — and serves as a worked example others can follow to build their own
+          domain-specific assistant.
+        </p>
 
         <h2>References</h2>
-        <p><span class="todo">[Citations in APA format, if applicable — otherwise remove this section.]</span></p>
+        <p><span class="todo">[Citations if applicable — e.g., platform documentation — otherwise this section can be removed.]</span></p>
       </article>
 
       <aside class="artifact-meta">
         <h4>Course</h4>
         <ul><li>AIML-500 · Indiana Wesleyan University</li></ul>
         <h4>Type</h4>
-        <ul><li><span class="todo">[e.g., Report, Dashboard, Code]</span></li></ul>
+        <ul><li>Conversational AI chatbot</li></ul>
         <h4>Tools</h4>
         <ul>
-          <li><span class="todo">[Tool 1]</span></li>
-          <li><span class="todo">[Tool 2]</span></li>
+          <li><span class="todo">[Platform]</span></li>
+          <li>Prompt engineering</li>
+          <li>Knowledge-base design</li>
         </ul>
         <h4>Date</h4>
-        <ul><li><span class="todo">[Month Year]</span></li></ul>
+        <ul><li>July 2026</li></ul>
       </aside>
     </div>
   </main>

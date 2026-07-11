@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-label="Abstract illustration of mountains with particle trails">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f6f2"/>
+      <stop offset="1" stop-color="#dbe7e2"/>
+    </linearGradient>
+    <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d5a5a"/>
+      <stop offset="1" stop-color="#22303a"/>
+    </linearGradient>
+    <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5c7a74"/>
+      <stop offset="1" stop-color="#3a524e"/>
+    </linearGradient>
+    <linearGradient id="m3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ba8a0"/>
+      <stop offset="1" stop-color="#5c7a74"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="640" fill="url(#sky)"/>
+
+  <!-- particle trails -->
+  <g fill="none" stroke="#0f5e54" stroke-width="1.5" opacity="0.5">
+    <path d="M 60 120 Q 250 60 430 140 T 760 100"/>
+    <path d="M 20 210 Q 220 150 420 210 T 780 180" opacity="0.6"/>
+    <path d="M 100 60 Q 320 130 520 70 T 790 130" opacity="0.4"/>
+  </g>
+  <g fill="#0f5e54">
+    <circle cx="430" cy="140" r="5" opacity="0.8"/>
+    <circle cx="230" cy="93" r="3.5" opacity="0.6"/>
+    <circle cx="620" cy="112" r="4" opacity="0.7"/>
+    <circle cx="330" cy="182" r="3" opacity="0.5"/>
+    <circle cx="520" cy="70" r="3.5" opacity="0.5"/>
+    <circle cx="700" cy="188" r="3" opacity="0.5"/>
+    <circle cx="120" cy="205" r="3" opacity="0.4"/>
+  </g>
+
+  <!-- far range -->
+  <path d="M 0 430 L 140 300 L 260 400 L 380 270 L 520 410 L 640 320 L 800 420 L 800 640 L 0 640 Z" fill="url(#m3)" opacity="0.8"/>
+  <!-- mid range -->
+  <path d="M 0 500 L 180 350 L 320 470 L 470 330 L 620 480 L 800 380 L 800 640 L 0 640 Z" fill="url(#m2)" opacity="0.9"/>
+  <!-- snow caps mid -->
+  <path d="M 470 330 L 505 365 L 480 360 L 460 375 L 445 358 Z" fill="#f7f6f2" opacity="0.9"/>
+  <path d="M 180 350 L 210 382 L 188 376 L 170 390 L 158 372 Z" fill="#f7f6f2" opacity="0.85"/>
+  <!-- near range -->
+  <path d="M 0 640 L 100 480 L 240 600 L 400 440 L 560 610 L 700 500 L 800 640 Z" fill="url(#m1)"/>
+  <!-- snow cap near -->
+  <path d="M 400 440 L 438 482 L 412 474 L 392 492 L 372 470 Z" fill="#eceae4" opacity="0.95"/>
+
+  <!-- water -->
+  <g stroke="#0f5e54" stroke-width="2" opacity="0.35" fill="none">
+    <path d="M 40 615 q 20 -8 40 0 t 40 0"/>
+    <path d="M 620 622 q 20 -8 40 0 t 40 0"/>
+  </g>
+</svg>
