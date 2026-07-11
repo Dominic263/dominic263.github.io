@@ -34,14 +34,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Shared depth background: two tapering wave ribbons, fixed so content glides over them */
+/* Shared depth background: two tapering wave ribbons, fixed so content glides over them.
+   Oversized + slow drift loop so the waves gently breathe. */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -6%;
   background: url("../assets/waves.svg") center / cover no-repeat;
   pointer-events: none;
   z-index: -1;
+  animation: wave-drift 60s ease-in-out infinite alternate;
+}
+
+@keyframes wave-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+  to   { transform: translate3d(1.5%, 1%, 0) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
 }
 
 img { max-width: 100%; display: block; }
@@ -63,6 +74,14 @@ a:hover { color: var(--accent-strong); }
   background: rgba(247, 246, 242, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
+}
+
+/* Signature gradient bar tying the two wave colors together */
+.site-header::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #a2652c);
 }
 
 .nav {
@@ -308,6 +327,26 @@ a:hover { color: var(--accent-strong); }
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(34, 48, 58, 0.1), 0 16px 36px rgba(34, 48, 58, 0.12);
+}
+
+/* Scroll reveal: .reveal is added by JS, so cards stay visible without JS */
+.card.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.card.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.card.reveal.visible:hover { transform: translateY(-3px); }
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 13px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(34, 48, 58, 0.18);
 }
 
 .card .card-tag {
