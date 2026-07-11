@@ -34,6 +34,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Shared depth background: two tapering wave ribbons, fixed so content glides over them */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("../assets/waves.svg") center / cover no-repeat;
+  pointer-events: none;
+  z-index: -1;
+}
+
 img { max-width: 100%; display: block; }
 
 a { color: var(--accent); text-decoration: none; }

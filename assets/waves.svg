@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <!-- Teal ribbon: narrow on the left, widening to the right, drifting through the upper third -->
+  <path d="M -60 180
+           C 260 120, 520 300, 840 220
+           C 1160 140, 1380 300, 1660 200
+           L 1660 330
+           C 1380 440, 1160 245, 840 335
+           C 520 425, 260 152, -60 196
+           Z"
+        fill="#0f5e54" opacity="0.07"/>
+  <!-- Amber ribbon: narrow on the right, widening to the left, drifting through the lower third -->
+  <path d="M 1660 640
+           C 1340 700, 1080 560, 760 650
+           C 440 740, 220 600, -60 680
+           L -60 812
+           C 220 706, 440 856, 760 764
+           C 1080 672, 1340 762, 1660 656
+           Z"
+        fill="#a2652c" opacity="0.055"/>
+</svg>
