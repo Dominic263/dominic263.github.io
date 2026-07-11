@@ -114,6 +114,28 @@
       .legend span { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
     }
 
+    .pdf-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.55rem 1.3rem;
+      border-radius: 8px;
+      background: var(--c-foundations);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.12s;
+    }
+    .pdf-link:hover { background: #0b4a42; transform: translateY(-1px); }
+
+    /* Print / PDF export */
+    @media print {
+      .legend-bar { position: static; }
+      .event, .era-band { opacity: 1 !important; transform: none !important; }
+      .pdf-link { display: none !important; }
+      .event, .era-band, .card { break-inside: avoid; }
+    }
+
     /* Timeline */
     .timeline {
       position: relative;
@@ -171,6 +193,17 @@
       border-radius: var(--radius);
       padding: 1.15rem 1.3rem;
       box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    .event .portrait {
+      float: right;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.05);
+      border: 2.5px solid var(--dot, var(--c-foundations));
+      margin: 0 0 0.5rem 0.9rem;
+      box-shadow: 0 2px 6px rgba(34, 48, 58, 0.15);
     }
     .event h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
     .event p { font-size: 0.92rem; color: var(--muted); }
@@ -261,6 +294,7 @@
         Seventy-five years of ambition, collapse, and breakthrough — from Alan Turing's question
         "Can machines think?" to the generative AI race reshaping every industry.
       </p>
+      <a class="pdf-link" href="ai-timeline.pdf" download="The-Evolution-of-AI-Timeline-Dominic-Ndondo.pdf">↓ Download as PDF</a>
     </div>
   </header>
 
@@ -281,6 +315,7 @@
       <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1950</div>
         <div class="card">
+          <img class="portrait" src="img/turing.jpg" alt="Alan Turing" loading="lazy">
           <h3>Turing asks: "Can machines think?"</h3>
           <p>Alan Turing publishes <em>Computing Machinery and Intelligence</em>, proposing the "imitation game" — the Turing Test — as a practical measure of machine intelligence. The wartime code-breaker becomes the field's founding thinker.</p>
           <span class="who">Alan Turing</span>
@@ -290,6 +325,7 @@
       <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1956</div>
         <div class="card">
+          <img class="portrait" src="img/mccarthy.jpg" alt="John McCarthy" loading="lazy">
           <h3>The Dartmouth Workshop — AI gets its name</h3>
           <p>John McCarthy coins the term "artificial intelligence" at a summer workshop at Dartmouth College. The founders predict machines will match human intelligence within a generation — optimism that will define, and haunt, the field.</p>
           <span class="who">John McCarthy, Marvin Minsky, Claude Shannon, Nathaniel Rochester</span>
@@ -299,6 +335,7 @@
       <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1957</div>
         <div class="card">
+          <img class="portrait" src="img/rosenblatt.jpg" alt="Frank Rosenblatt" loading="lazy">
           <h3>The Perceptron — the first neural network</h3>
           <p>Frank Rosenblatt builds the Perceptron, a machine that learns from data by adjusting weighted connections — the ancestor of every modern neural network. The New York Times reports it may one day "walk, talk, see, and write."</p>
           <span class="who">Frank Rosenblatt</span>
@@ -308,6 +345,7 @@
       <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1966</div>
         <div class="card">
+          <img class="portrait" src="img/weizenbaum.jpg" alt="Joseph Weizenbaum" loading="lazy">
           <h3>ELIZA — the first chatbot</h3>
           <p>Joseph Weizenbaum's ELIZA mimics a psychotherapist using simple pattern matching. Users pour their hearts out to it — an early warning of how easily humans attribute understanding to machines.</p>
           <span class="who">Joseph Weizenbaum (MIT)</span>
@@ -317,6 +355,7 @@
       <div class="event" data-era="foundations" style="--dot: var(--c-foundations)">
         <div class="year">1969</div>
         <div class="card">
+          <img class="portrait" src="img/minsky.jpg" alt="Marvin Minsky" loading="lazy">
           <h3>"Perceptrons" exposes the limits</h3>
           <p>Minsky and Papert prove mathematically that single-layer perceptrons cannot solve simple problems like XOR. Neural network research funding dries up almost overnight — symbolic, logic-based AI dominates instead.</p>
           <span class="who">Marvin Minsky, Seymour Papert</span>
@@ -331,6 +370,7 @@
       <div class="event" data-era="boom" style="--dot: var(--c-boom)">
         <div class="year">1980</div>
         <div class="card">
+          <img class="portrait" src="img/feigenbaum.jpg" alt="Edward Feigenbaum" loading="lazy">
           <h3>Expert systems bring AI to business</h3>
           <p>Rule-based "expert systems" encode human specialist knowledge. DEC's XCON system saves the company an estimated $40M a year configuring computer orders, and corporations worldwide rush to build their own.</p>
           <span class="who">Edward Feigenbaum, Digital Equipment Corporation</span>
@@ -349,6 +389,7 @@
       <div class="event" data-era="boom" style="--dot: var(--c-boom)">
         <div class="year">1986</div>
         <div class="card">
+          <img class="portrait" src="img/rumelhart.jpg" alt="David Rumelhart" loading="lazy">
           <h3>Backpropagation revives neural networks</h3>
           <p>Rumelhart, Hinton, and Williams popularize backpropagation, showing how to train <em>multi-layer</em> networks — solving the very limitation Minsky exposed in 1969. Connectionism quietly returns from exile.</p>
           <span class="who">David Rumelhart, Geoffrey Hinton, Ronald Williams</span>
@@ -363,6 +404,7 @@
       <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">1997</div>
         <div class="card">
+          <img class="portrait" src="img/deepblue.jpg" alt="The Deep Blue chess computer" loading="lazy">
           <h3>Deep Blue defeats the world chess champion</h3>
           <p>IBM's Deep Blue beats Garry Kasparov — the first machine victory over a reigning world champion under tournament conditions. Brute-force search plus specialized hardware puts AI back on the world's front pages.</p>
           <span class="who">IBM, Garry Kasparov</span>
@@ -372,6 +414,7 @@
       <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">2006</div>
         <div class="card">
+          <img class="portrait" src="img/hinton.jpg" alt="Geoffrey Hinton" loading="lazy">
           <h3>"Deep learning" is born — and the cloud arrives</h3>
           <p>Geoffrey Hinton shows deep belief networks can be trained layer by layer, rebranding neural nets as "deep learning." The same year, Amazon launches AWS — the cloud computing infrastructure that will let anyone rent massive compute on demand.</p>
           <span class="who">Geoffrey Hinton, Amazon Web Services</span>
@@ -381,6 +424,7 @@
       <div class="event" data-era="quiet" style="--dot: var(--c-quiet)">
         <div class="year">2009</div>
         <div class="card">
+          <img class="portrait" src="img/feifei.jpg" alt="Fei-Fei Li" loading="lazy">
           <h3>ImageNet — big data for vision</h3>
           <p>Fei-Fei Li's team publishes ImageNet, a dataset of millions of labeled images. Its annual competition becomes the proving ground where deep learning will stage its coup.</p>
           <span class="who">Fei-Fei Li (Stanford)</span>
@@ -390,6 +434,7 @@
       <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2012</div>
         <div class="card">
+          <img class="portrait" src="img/sutskever.jpg" alt="Ilya Sutskever" loading="lazy">
           <h3>AlexNet — the moment hardware caught up</h3>
           <p>A deep neural network trained on Nvidia gaming GPUs crushes the ImageNet competition, nearly halving the error rate. Theory from the 1980s finally meets sufficient hardware — and the deep learning gold rush begins.</p>
           <span class="who">Alex Krizhevsky, Ilya Sutskever, Geoffrey Hinton, Nvidia</span>
@@ -399,6 +444,7 @@
       <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2016</div>
         <div class="card">
+          <img class="portrait" src="img/sedol.jpg" alt="Lee Sedol" loading="lazy">
           <h3>AlphaGo beats Lee Sedol</h3>
           <p>DeepMind's AlphaGo defeats the legendary Go champion 4–1, mastering a game with more board positions than atoms in the universe. Its "Move 37" — a move no human would play — shows machines can be creative, not just fast.</p>
           <span class="who">DeepMind (Google), Demis Hassabis, Lee Sedol</span>
@@ -408,6 +454,7 @@
       <div class="event" data-era="deep" style="--dot: var(--c-deep)">
         <div class="year">2017</div>
         <div class="card">
+          <img class="portrait" src="img/transformer.jpg" alt="The Transformer architecture diagram" loading="lazy">
           <h3>"Attention Is All You Need" — the Transformer</h3>
           <p>Google researchers publish the Transformer architecture, which processes language in parallel rather than word by word. It becomes the foundation of virtually every modern AI model — the "T" in GPT.</p>
           <span class="who">Vaswani et al. (Google Brain)</span>
@@ -417,6 +464,7 @@
       <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2020</div>
         <div class="card">
+          <img class="portrait" src="img/altman.jpg" alt="Sam Altman" loading="lazy">
           <h3>GPT-3 — scale becomes a strategy</h3>
           <p>OpenAI's 175-billion-parameter GPT-3 writes essays, code, and poetry from a plain-text prompt. Training compute for frontier models is now doubling roughly every six months — far faster than Moore's Law.</p>
           <span class="who">OpenAI, Sam Altman</span>
@@ -426,6 +474,7 @@
       <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2022</div>
         <div class="card">
+          <img class="portrait" src="img/chatgpt.jpg" alt="The ChatGPT logo" loading="lazy">
           <h3>ChatGPT — AI goes mainstream</h3>
           <p>ChatGPT reaches 100 million users in two months — the fastest-adopted consumer application in history at the time. Generative AI leaves the lab and lands on everyone's desk, desk drawer, and dinner-table conversation.</p>
           <span class="who">OpenAI</span>
@@ -435,6 +484,7 @@
       <div class="event" data-era="gen" style="--dot: var(--c-gen)">
         <div class="year">2023–25</div>
         <div class="card">
+          <img class="portrait" src="img/huang.jpg" alt="Jensen Huang" loading="lazy">
           <h3>The generative AI race</h3>
           <p>GPT-4, Google's Gemini, Anthropic's Claude, and open models like Llama compete on multimodal understanding and step-by-step reasoning. Nvidia becomes one of the world's most valuable companies — hardware and algorithms, as always, advancing together.</p>
           <span class="who">OpenAI, Google, Anthropic, Meta, Nvidia</span>
@@ -451,6 +501,7 @@
         <li>Putchuon – "Put You On." (2024, May 30). <em>The entire history of artificial intelligence (Last 100 years)</em> [Video]. YouTube. <a href="https://www.youtube.com/watch?v=mSd9nmPM7Vg" rel="noopener">youtube.com/watch?v=mSd9nmPM7Vg</a></li>
         <li>IEEE Computer Society. (n.d.). <em>The evolution of AI: From foundations to future prospects.</em> <a href="https://www.computer.org/publications/tech-news/research/evolution-of-ai" rel="noopener">computer.org/publications/tech-news/research/evolution-of-ai</a></li>
         <li>Roser, M., &amp; Our World in Data. (n.d.). <em>A brief history of artificial intelligence.</em> Our World in Data. <a href="https://ourworldindata.org/brief-history-of-ai" rel="noopener">ourworldindata.org/brief-history-of-ai</a></li>
+        <li>Portrait and event images via <a href="https://commons.wikimedia.org" rel="noopener">Wikipedia / Wikimedia Commons</a> (public domain and Creative Commons licensed).</li>
       </ul>
       <div class="credit">
         <p>
