@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kitchen That Learns — Neural Networks Explained by Dominic Ndondo</title>
+  <meta name="description" content="An illustrated explainer: how a neural network works, told through a restaurant kitchen — layers as cooks, weights as trust, and backpropagation as the head chef's 'too salty.'">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eceae4;
+      --surface: #f7f6f2;
+      --ink: #22303a;
+      --muted: #5c6b76;
+      --border: #d5d1c7;
+      --teal: #0f5e54;
+      --teal-soft: #dbe7e2;
+      --amber: #a2652c;
+      --crimson: #a63d55;
+      --radius: 12px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    .container { width: min(760px, 93%); margin: 0 auto; }
+    .container-wide { width: min(1000px, 95%); margin: 0 auto; }
+
+    header {
+      text-align: center;
+      padding: 4rem 0 3rem;
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(15, 94, 84, 0.09), transparent);
+    }
+    header .kicker {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 6vw, 3.4rem);
+      line-height: 1.12;
+      margin-bottom: 0.9rem;
+    }
+    header .sub {
+      color: var(--muted);
+      max-width: 38rem;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    article { padding: 2.5rem 0 1rem; }
+    article p { margin-bottom: 1.25rem; }
+    article h2 {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      margin: 2.6rem 0 1rem;
+    }
+    article em { color: var(--muted); }
+
+    figure {
+      margin: 2.75rem auto;
+      text-align: center;
+    }
+    figure svg {
+      width: 100%;
+      height: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    figcaption {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      max-width: 44rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .callout {
+      background: var(--teal-soft);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.2rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .callout strong { color: var(--teal); }
+
+    .disclosure {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin: 3rem 0 2rem;
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+    .disclosure h3 {
+      font-family: var(--font-display);
+      color: var(--ink);
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .credit {
+      border-top: 1px solid var(--border);
+      padding: 1.75rem 0 3rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .credit a { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <span class="kicker">AIML-500 · Artifact 3 · Illustrated Explainer</span>
+      <h1>The Kitchen That Learns</h1>
+      <p class="sub">
+        How a neural network actually works — no equations, no jargon.
+        Just a line of cooks, a head chef with opinions, and a dish that slowly gets good.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <article class="container">
+      <p>
+        I kept trying to explain neural networks with diagrams and it kept falling flat, so I
+        gave up and thought about a restaurant kitchen instead.
+      </p>
+      <p>
+        Picture a line of cooks. The prep cook at the start doesn't know what dish is coming —
+        she just chops what's in front of her and slides it down. The next cook never sees the
+        original order either; he only sees what showed up at his station and does his one
+        small thing to it. Sauces, plating, garnish. By the time it reaches the pass, a full
+        dish exists, but nobody along that line made the whole dish. Each person handled one
+        tiny piece and trusted the person before them.
+      </p>
+      <p>
+        That's basically a neural network. The cooks are neurons, arranged in layers. The
+        first layer looks at raw stuff — pixels, words, numbers — and passes its small
+        findings to the next layer, which combines them into something slightly bigger, until
+        the last layer says "cat" or "not spam." Every connection carries a
+        <strong>weight</strong>, which is just a number for how much the network currently
+        trusts that signal.
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <figure>
+        <svg viewBox="0 0 940 470" role="img" aria-label="Diagram mapping a restaurant kitchen line onto a neural network: four kitchen stations on top correspond to the input, hidden, and output layers of a network below.">
+          <!-- ======= KITCHEN ROW ======= -->
+          <text x="40" y="38" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="700" fill="#22303a">The kitchen line</text>
+
+          <!-- Stations -->
+          <g font-family="Inter, sans-serif">
+            <rect x="40" y="55" width="180" height="82" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="130" y="84" text-anchor="middle" font-size="14.5" font-weight="600" fill="#0b4a42">Prep cook</text>
+            <text x="130" y="104" text-anchor="middle" font-size="11.5" fill="#5c6b76">chops what's in front</text>
+            <text x="130" y="120" text-anchor="middle" font-size="11.5" fill="#5c6b76">of her, slides it down</text>
+
+            <rect x="275" y="55" width="180" height="82" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="365" y="84" text-anchor="middle" font-size="14.5" font-weight="600" fill="#0b4a42">Sauce cook</text>
+            <text x="365" y="104" text-anchor="middle" font-size="11.5" fill="#5c6b76">never sees the order —</text>
+            <text x="365" y="120" text-anchor="middle" font-size="11.5" fill="#5c6b76">does his one small thing</text>
+
+            <rect x="510" y="55" width="180" height="82" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="600" y="84" text-anchor="middle" font-size="14.5" font-weight="600" fill="#0b4a42">Plating cook</text>
+            <text x="600" y="104" text-anchor="middle" font-size="11.5" fill="#5c6b76">combines pieces into</text>
+            <text x="600" y="120" text-anchor="middle" font-size="11.5" fill="#5c6b76">something bigger</text>
+
+            <rect x="745" y="55" width="160" height="82" rx="12" fill="#f3e4d4" stroke="#a2652c" stroke-width="1.5"/>
+            <text x="825" y="84" text-anchor="middle" font-size="14.5" font-weight="600" fill="#7a4a1e">The Pass</text>
+            <text x="825" y="104" text-anchor="middle" font-size="11.5" fill="#5c6b76">a full dish exists —</text>
+            <text x="825" y="120" text-anchor="middle" font-size="11.5" fill="#5c6b76">nobody made it alone</text>
+          </g>
+
+          <!-- Forward arrows kitchen -->
+          <g stroke="#8a9199" stroke-width="2" fill="#8a9199">
+            <line x1="222" y1="96" x2="266" y2="96"/><path d="M 266 96 l -9 -5 v 10 z"/>
+            <line x1="457" y1="96" x2="501" y2="96"/><path d="M 501 96 l -9 -5 v 10 z"/>
+            <line x1="692" y1="96" x2="736" y2="96"/><path d="M 736 96 l -9 -5 v 10 z"/>
+          </g>
+
+          <!-- Correspondence dashed lines -->
+          <g stroke="#b9b3a6" stroke-width="1.5" stroke-dasharray="5 5">
+            <line x1="130" y1="140" x2="130" y2="255"/>
+            <line x1="365" y1="140" x2="365" y2="240"/>
+            <line x1="600" y1="140" x2="600" y2="255"/>
+            <line x1="825" y1="140" x2="825" y2="290"/>
+          </g>
+          <text x="470" y="195" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#5c6b76" transform="rotate(0)">same idea, different uniform ↓</text>
+
+          <!-- ======= NETWORK ROW ======= -->
+          <text x="40" y="230" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="700" fill="#22303a">The neural network</text>
+
+          <!-- Connections (draw before neurons) -->
+          <g stroke="#b9b3a6" stroke-width="1" opacity="0.55">
+            <!-- input (130, y: 280/330/380) to hidden1 (365, y: 265/315/365/415) -->
+            <line x1="130" y1="280" x2="365" y2="265"/><line x1="130" y1="280" x2="365" y2="315"/><line x1="130" y1="280" x2="365" y2="365"/><line x1="130" y1="280" x2="365" y2="415"/>
+            <line x1="130" y1="330" x2="365" y2="265"/><line x1="130" y1="330" x2="365" y2="315"/><line x1="130" y1="330" x2="365" y2="365"/><line x1="130" y1="330" x2="365" y2="415"/>
+            <line x1="130" y1="380" x2="365" y2="265"/><line x1="130" y1="380" x2="365" y2="315"/><line x1="130" y1="380" x2="365" y2="365"/><line x1="130" y1="380" x2="365" y2="415"/>
+            <!-- hidden1 to hidden2 (600, y: 280/330/380) -->
+            <line x1="365" y1="265" x2="600" y2="280"/><line x1="365" y1="265" x2="600" y2="330"/><line x1="365" y1="265" x2="600" y2="380"/>
+            <line x1="365" y1="315" x2="600" y2="280"/><line x1="365" y1="315" x2="600" y2="330"/><line x1="365" y1="315" x2="600" y2="380"/>
+            <line x1="365" y1="365" x2="600" y2="280"/><line x1="365" y1="365" x2="600" y2="330"/><line x1="365" y1="365" x2="600" y2="380"/>
+            <line x1="365" y1="415" x2="600" y2="280"/><line x1="365" y1="415" x2="600" y2="330"/><line x1="365" y1="415" x2="600" y2="380"/>
+            <!-- hidden2 to output (825, 330) -->
+            <line x1="600" y1="280" x2="825" y2="330"/><line x1="600" y1="330" x2="825" y2="330"/><line x1="600" y1="380" x2="825" y2="330"/>
+          </g>
+
+          <!-- Highlighted weight connection -->
+          <line x1="130" y1="330" x2="365" y2="315" stroke="#0f5e54" stroke-width="2.5"/>
+          <g font-family="Inter, sans-serif">
+            <rect x="180" y="292" width="138" height="22" rx="11" fill="#f7f6f2" stroke="#0f5e54" stroke-width="1"/>
+            <text x="249" y="307" text-anchor="middle" font-size="11" font-weight="600" fill="#0b4a42">weight = trust (0.8)</text>
+          </g>
+
+          <!-- Neurons -->
+          <g fill="#f7f6f2" stroke="#0f5e54" stroke-width="2">
+            <circle cx="130" cy="280" r="16"/><circle cx="130" cy="330" r="16"/><circle cx="130" cy="380" r="16"/>
+            <circle cx="365" cy="265" r="16"/><circle cx="365" cy="315" r="16"/><circle cx="365" cy="365" r="16"/><circle cx="365" cy="415" r="16"/>
+            <circle cx="600" cy="280" r="16"/><circle cx="600" cy="330" r="16"/><circle cx="600" cy="380" r="16"/>
+          </g>
+          <circle cx="825" cy="330" r="19" fill="#f3e4d4" stroke="#a2652c" stroke-width="2.5"/>
+
+          <!-- Layer labels -->
+          <g font-family="Inter, sans-serif" font-size="11.5" fill="#5c6b76" text-anchor="middle">
+            <text x="130" y="418">Input layer</text>
+            <text x="130" y="433">raw pixels, words, numbers</text>
+            <text x="365" y="448">Hidden layer</text>
+            <text x="600" y="418">Hidden layer</text>
+            <text x="600" y="433">bigger combinations</text>
+            <text x="825" y="368">Output</text>
+            <text x="825" y="383">"cat" / "not spam"</text>
+          </g>
+        </svg>
+        <figcaption>
+          The mapping: each cook is a neuron, each station is a layer, and every connection
+          carries a weight — just a number for how much the network currently trusts that signal.
+        </figcaption>
+      </figure>
+    </div>
+
+    <article class="container">
+      <h2>The learning part</h2>
+      <p>
+        The learning part is what got me. On day one the kitchen is terrible — everyone's
+        guessing and the dish comes out wrong. So the head chef tastes it, says
+        <em>"too salty,"</em> and that correction travels backwards down the line. Whoever
+        oversalted adjusts a little. Not a big change, just a nudge. That's
+        <strong>backpropagation</strong>. Do it once and nothing improves. Do it across
+        millions of examples and the kitchen gets genuinely good at the one dish it was
+        trained on.
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <figure>
+        <svg viewBox="0 0 940 330" role="img" aria-label="Diagram of backpropagation: the dish moves forward through the kitchen stations, the head chef tastes it and says too salty, and the correction travels backwards with each station adjusting a little.">
+          <!-- Head chef -->
+          <g font-family="Inter, sans-serif">
+            <circle cx="855" cy="60" r="24" fill="#f3e4d4" stroke="#a2652c" stroke-width="2"/>
+            <text x="855" y="66" text-anchor="middle" font-size="17">👨‍🍳</text>
+            <rect x="640" y="38" width="185" height="44" rx="10" fill="#f7f6f2" stroke="#a63d55" stroke-width="1.5"/>
+            <text x="732" y="56" text-anchor="middle" font-size="12.5" font-weight="600" fill="#a63d55">Head chef tastes the dish:</text>
+            <text x="732" y="73" text-anchor="middle" font-size="13.5" font-weight="700" fill="#a63d55">"Too salty."</text>
+          </g>
+
+          <!-- Backward correction arrow -->
+          <path d="M 640 62 C 450 20, 260 20, 90 130" fill="none" stroke="#a63d55" stroke-width="2.5" stroke-dasharray="7 5"/>
+          <path d="M 90 130 l 12 -8 l -3 13 z" fill="#a63d55"/>
+          <text x="352" y="103" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#a63d55">the correction travels backwards — backpropagation</text>
+
+          <!-- Stations -->
+          <g font-family="Inter, sans-serif">
+            <rect x="55" y="150" width="160" height="66" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="135" y="177" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0b4a42">Prep cook</text>
+            <text x="135" y="196" text-anchor="middle" font-size="11" fill="#5c6b76">"maybe less salt…"</text>
+
+            <rect x="270" y="150" width="160" height="66" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="350" y="177" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0b4a42">Sauce cook</text>
+            <text x="350" y="196" text-anchor="middle" font-size="11" fill="#5c6b76">"I'll ease the reduction"</text>
+
+            <rect x="485" y="150" width="160" height="66" rx="12" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="565" y="177" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0b4a42">Plating cook</text>
+            <text x="565" y="196" text-anchor="middle" font-size="11" fill="#5c6b76">"skip the salt flakes"</text>
+
+            <rect x="700" y="150" width="160" height="66" rx="12" fill="#f3e4d4" stroke="#a2652c" stroke-width="1.5"/>
+            <text x="780" y="177" text-anchor="middle" font-size="13.5" font-weight="600" fill="#7a4a1e">The Pass</text>
+            <text x="780" y="196" text-anchor="middle" font-size="11" fill="#5c6b76">tomorrow's dish, better</text>
+          </g>
+
+          <!-- Forward arrows -->
+          <g stroke="#8a9199" stroke-width="2" fill="#8a9199">
+            <line x1="217" y1="183" x2="261" y2="183"/><path d="M 261 183 l -9 -5 v 10 z"/>
+            <line x1="432" y1="183" x2="476" y2="183"/><path d="M 476 183 l -9 -5 v 10 z"/>
+            <line x1="647" y1="183" x2="691" y2="183"/><path d="M 691 183 l -9 -5 v 10 z"/>
+          </g>
+          <text x="457" y="242" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8a9199">the dish moves forward →</text>
+
+          <!-- Nudges -->
+          <g font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#0f5e54" text-anchor="middle">
+            <text x="135" y="272">nudge, not overhaul:</text>
+            <text x="135" y="288">each weight adjusts a little</text>
+            <text x="350" y="280">↓ small adjustment</text>
+            <text x="565" y="280">↓ small adjustment</text>
+            <text x="780" y="272">repeat across millions</text>
+            <text x="780" y="288">of examples</text>
+          </g>
+        </svg>
+        <figcaption>
+          Learning, kitchen-style: the dish flows forward, the "too salty" flows backward, and
+          every station makes a small adjustment. One correction changes almost nothing —
+          millions of them make the kitchen genuinely good.
+        </figcaption>
+      </figure>
+    </div>
+
+    <article class="container">
+      <h2>Nobody wrote the recipe</h2>
+      <p>
+        What clicked for me is that nobody ever wrote the recipe. The network isn't following
+        instructions about what a cat looks like — the "recipe" is just the pattern of who
+        trusts whom, learned from being corrected over and over. That's also why these things
+        are black boxes: you can see what goes in and what comes out, but the reasoning is
+        spread across millions of trust settings that don't translate into a sentence.
+      </p>
+
+      <div class="callout">
+        <strong>Where the analogy breaks down:</strong> real neurons don't take turns the way
+        cooks on a line do. Within a layer, everything happens at once — thousands of "cooks"
+        working simultaneously, not passing a single dish down a line. The kitchen buys you
+        intuition about layers, weights, and learning; don't let it sell you sequential
+        thinking.
+      </div>
+
+      <div class="disclosure">
+        <h3>AI use disclosure</h3>
+        <p>
+          I used Claude (Anthropic) to brainstorm the analogy and refine the logic. My first
+          draft was stuffed with jargon like "activation function" that I hadn't earned the
+          right to use yet, so I asked it to strip that out and tell me where the kitchen
+          analogy breaks down. It pointed out that real neurons don't take turns like cooks
+          do — everything happens at once — which was useful to know before I oversold the
+          metaphor.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <div class="credit">
+    <div class="container">
+      An illustrated explainer written by <a href="../../about.html">Dominic Ndondo</a> for
+      AIML-500 (Machine Learning Fundamentals) — August 2026. Diagrams hand-coded in SVG.
+      Part of my <a href="../../artifacts/artifact-3.html">professional portfolio</a>.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kitchen That Learns — Neural Network Analogy — Dominic Ndondo</title>
+  <meta name="description" content="AIML-500 artifact: an illustrated explainer that teaches how neural networks work through a restaurant kitchen analogy, with hand-coded SVG diagrams.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../index.html" class="nav-brand">Dominic<span>&nbsp;Ndondo</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../artifacts.html" class="active">Artifacts</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p style="margin-bottom: 0.75rem;"><a href="../artifacts.html">← All artifacts</a></p>
+        <h1>The Kitchen That Learns — A Neural Network Analogy</h1>
+        <p class="lede">
+          <em>Introduction:</em> An illustrated explainer that teaches how neural networks
+          work — layers, weights, and backpropagation — through a restaurant kitchen, written
+          for readers with zero technical background.
+        </p>
+      </div>
+    </section>
+
+    <div class="container artifact-layout">
+      <article class="prose">
+        <h2>Description</h2>
+        <p>
+          This artifact began as a class discussion post: I kept trying to explain neural
+          networks with standard node-and-arrow diagrams and they kept falling flat, so I
+          rebuilt the explanation around a restaurant kitchen. The prep cook who chops
+          without knowing the dish is an input-layer neuron; the line of stations passing
+          partial work forward is the network's layers; a connection's <em>weight</em> is how
+          much one cook trusts what the previous cook sends; and the head chef's "too salty"
+          traveling backwards down the line — each station making a small adjustment — is
+          backpropagation.
+        </p>
+        <p>
+          For the portfolio, I expanded the original post into a designed, illustrated web
+          page. Two hand-coded SVG diagrams carry the explanation: one maps the kitchen line
+          onto an actual network layer diagram, station by station; the other shows the
+          learning loop — the dish flowing forward and the correction flowing backward. The
+          piece closes with the analogy's honest limits (real neurons fire in parallel, not
+          in sequence) and a full AI-use disclosure.
+        </p>
+
+        <div class="deliverable-box">
+          <h3>The Deliverable</h3>
+          <p>
+            The explainer lives at
+            <a href="../assets/artifact-3/kitchen-analogy.html"><strong>dominic263.github.io/assets/artifact-3/kitchen-analogy.html</strong></a>
+            — or read it right here:
+          </p>
+          <iframe src="../assets/artifact-3/kitchen-analogy.html" title="The Kitchen That Learns — illustrated neural network explainer" style="width: 100%; height: 620px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff;"></iframe>
+          <p style="margin-top: 1rem;">
+            <a class="btn btn-primary" href="../assets/artifact-3/kitchen-analogy.html">Open the full explainer</a>
+          </p>
+        </div>
+
+        <h2>Objective</h2>
+        <p>
+          Created for the third portfolio artifact assignment in AIML-500, which asks for a
+          class activity demonstrating a new skill — and specifically for customizing that
+          work for a portfolio audience. The objective here was twofold: to demonstrate that
+          I genuinely understand how neural networks learn (layers, weights,
+          backpropagation, and why trained networks are black boxes), and to demonstrate that
+          I can translate that understanding for a non-technical audience — the
+          stakeholder-communication skill that AI/ML leadership actually runs on.
+        </p>
+
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Finding the analogy:</strong> after standard diagrams fell flat, I searched for a system people already understand where distributed workers each do one small step without seeing the whole — and landed on the restaurant kitchen line.</li>
+          <li><strong>Stress-testing it:</strong> I deliberately probed where the analogy breaks (real neurons work in parallel, not in sequence) so the piece teaches intuition without overselling the metaphor.</li>
+          <li><strong>Cutting unearned jargon:</strong> my first draft leaned on terms like "activation function" that the analogy hadn't earned; I stripped the vocabulary down to only what the kitchen could honestly carry.</li>
+          <li><strong>Expanding for the portfolio:</strong> I turned the discussion post into a designed explainer page and hand-coded two SVG diagrams — the kitchen-to-network mapping and the backpropagation loop — so the visuals teach the same story the words do.</li>
+        </ol>
+
+        <h2>Tools &amp; Technologies Used</h2>
+        <ul>
+          <li>HTML &amp; CSS (designed explainer page, consistent with this portfolio's system)</li>
+          <li>Hand-coded SVG (both diagrams drawn as code — no diagramming tool)</li>
+          <li>GitHub Pages (public hosting)</li>
+          <li>Claude (Anthropic) — brainstorming and stress-testing the analogy, disclosed in full on the piece itself</li>
+        </ul>
+
+        <h2>Value Proposition</h2>
+        <h3>Unique Value</h3>
+        <p>
+          Anyone can recite the definition of backpropagation; explaining it so a
+          non-technical reader <em>feels</em> it is a different skill, and it's one of mine.
+          This artifact shows I understand the mechanics deeply enough to compress them into
+          an everyday system without lying — including knowing exactly where the metaphor
+          stops being true. It's the same translation skill I practiced teaching machine
+          learning to high school students through AR, applied in writing.
+        </p>
+        <h3>Relevance</h3>
+        <p>
+          Every AI initiative lives or dies on whether decision-makers actually understand
+          what the system does. Leaders who can explain AI/ML to boards, clients, and
+          teammates — benefits, limits, and honest uncertainty — are the ones organizations
+          trust with change. This piece is a working sample of that, and a resource any
+          reader can borrow the next time someone asks them how neural networks learn.
+        </p>
+
+        <h2>Attribution &amp; AI Use</h2>
+        <p>
+          The analogy, writing, and diagrams are my own work. I used Claude (Anthropic) to
+          brainstorm and refine the logic — including asking it to strip unearned jargon and
+          identify where the kitchen analogy breaks down. The full disclosure appears on the
+          explainer itself.
+        </p>
+      </article>
+
+      <aside class="artifact-meta">
+        <h4>Course</h4>
+        <ul><li>AIML-500 · Portfolio Artifact 3</li></ul>
+        <h4>Type</h4>
+        <ul><li>Illustrated explainer (original web page + SVG diagrams)</li></ul>
+        <h4>Tools</h4>
+        <ul>
+          <li>HTML / CSS / SVG</li>
+          <li>GitHub Pages</li>
+          <li>Claude (disclosed)</li>
+        </ul>
+        <h4>Date</h4>
+        <ul><li>August 2026</li></ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Dominic<span>&nbsp;Ndondo</span></div>
+          <p>A professional portfolio and resource site — evidence of growth in AI and machine learning at Indiana Wesleyan University.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../artifacts.html">Artifacts</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Dominic Ndondo · Built for AIML-500, Indiana Wesleyan University
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
