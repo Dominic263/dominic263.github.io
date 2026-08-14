@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two Problems, Two Tools — Machine Learning vs. Deep Learning</title>
+  <meta name="description" content="A visual companion: how traditional machine learning and deep learning differ, and how to tell which one a problem actually needs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eceae4;
+      --surface: #f7f6f2;
+      --ink: #22303a;
+      --muted: #5c6b76;
+      --border: #d5d1c7;
+      --teal: #0f5e54;
+      --teal-soft: #dbe7e2;
+      --violet: #6e4a8e;
+      --violet-soft: #e6dff0;
+      --amber: #a2652c;
+      --radius: 12px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    .container { width: min(760px, 93%); margin: 0 auto; }
+    .container-wide { width: min(1040px, 95%); margin: 0 auto; }
+
+    header {
+      text-align: center;
+      padding: 4rem 0 2.5rem;
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(15, 94, 84, 0.09), transparent);
+    }
+    header .kicker {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 3.2rem);
+      line-height: 1.12;
+      margin-bottom: 0.9rem;
+    }
+    header .sub {
+      color: var(--muted);
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+    .pdf-link {
+      display: inline-block;
+      margin-top: 1.4rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.12s;
+    }
+    .pdf-link:hover { background: #0b4a42; transform: translateY(-1px); }
+
+    article { padding: 2rem 0 1rem; }
+    article p { margin-bottom: 1.2rem; }
+    article h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      margin: 2.4rem 0 1rem;
+    }
+
+    figure { margin: 2.5rem auto; text-align: center; }
+    figure svg {
+      width: 100%;
+      height: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    figcaption {
+      font-size: 0.87rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      max-width: 44rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Case study cards */
+    .cases {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2rem 0 1rem;
+    }
+    .case {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    .case.dl { border-top-color: var(--violet); }
+    .case .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--teal-soft);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 0.8rem;
+    }
+    .case.dl .badge { color: var(--violet); background: var(--violet-soft); }
+    .case h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .case p { font-size: 0.93rem; color: var(--muted); margin-bottom: 0.9rem; }
+    .case ul { list-style: none; font-size: 0.9rem; }
+    .case li {
+      padding-left: 1.3rem;
+      position: relative;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+    }
+    .case li::before {
+      content: "✓";
+      position: absolute; left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+    .case.dl li::before { color: var(--violet); }
+    .case li.no::before { content: "✕"; color: #a63d55; }
+
+    .callout {
+      background: var(--teal-soft);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.2rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .callout strong { color: var(--teal); }
+
+    .credit {
+      border-top: 1px solid var(--border);
+      margin-top: 2.5rem;
+      padding: 1.75rem 0 3rem;
+      font-size: 0.87rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .credit a { color: var(--teal); }
+
+    @media (max-width: 700px) {
+      .cases { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <span class="kicker">AIML-500 · Artifact 4 · Visual Companion</span>
+      <h1>Two Problems, Two Tools</h1>
+      <p class="sub">
+        Deep learning is not "better" machine learning — it is machine learning that does its own
+        feature engineering. Knowing when that trade is worth making is the whole skill.
+      </p>
+      <a class="pdf-link" href="ml-vs-deep-learning-report.pdf" download="Ndondo_ML_vs_Deep_Learning_Report.pdf">↓ Download the full report (PDF)</a>
+    </div>
+  </header>
+
+  <main>
+    <article class="container">
+      <p>
+        The most common misunderstanding about deep learning is that it sits at the top of a
+        ladder — that traditional machine learning is the beginner's version and neural networks
+        are what you graduate to. The real relationship is narrower and more useful than that.
+        Deep learning is a <em>subset</em> of machine learning distinguished by one specific
+        capability: it learns the features itself, directly from raw data, instead of being
+        handed features a human chose.
+      </p>
+      <p>
+        That single difference is what the diagram below shows, and it drives every practical
+        decision that follows — how much data you need, how much compute you'll spend, and
+        whether you'll be able to explain the result to anyone.
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <figure>
+        <svg viewBox="0 0 980 430" role="img" aria-label="Two pipelines compared: traditional machine learning requires a human to engineer features before the algorithm sees them, while deep learning takes raw data directly and learns features across its layers.">
+          <!-- ============ TRADITIONAL ML ============ -->
+          <text x="30" y="34" font-family="Fraunces, Georgia, serif" font-size="16" font-weight="700" fill="#0f5e54">Traditional Machine Learning</text>
+          <text x="30" y="54" font-family="Inter, sans-serif" font-size="12" fill="#5c6b76">a human decides what matters</text>
+
+          <g font-family="Inter, sans-serif">
+            <!-- raw data -->
+            <rect x="30" y="72" width="130" height="70" rx="10" fill="#f7f6f2" stroke="#b9b3a6" stroke-width="1.5"/>
+            <text x="95" y="100" text-anchor="middle" font-size="12.5" font-weight="600" fill="#22303a">Raw data</text>
+            <text x="95" y="118" text-anchor="middle" font-size="10.5" fill="#5c6b76">customer records,</text>
+            <text x="95" y="132" text-anchor="middle" font-size="10.5" fill="#5c6b76">billing history</text>
+
+            <!-- HUMAN step - highlighted -->
+            <rect x="215" y="66" width="175" height="82" rx="10" fill="#dbe7e2" stroke="#0f5e54" stroke-width="2.5"/>
+            <text x="302" y="90" text-anchor="middle" font-size="17">👤</text>
+            <text x="302" y="112" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0b4a42">Human picks features</text>
+            <text x="302" y="129" text-anchor="middle" font-size="10.5" fill="#5c6b76">tenure · contract type ·</text>
+            <text x="302" y="142" text-anchor="middle" font-size="10.5" fill="#5c6b76">monthly charge</text>
+
+            <!-- algorithm -->
+            <rect x="445" y="72" width="140" height="70" rx="10" fill="#f7f6f2" stroke="#0f5e54" stroke-width="1.5"/>
+            <text x="515" y="100" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0b4a42">Algorithm</text>
+            <text x="515" y="118" text-anchor="middle" font-size="10.5" fill="#5c6b76">SVM, decision tree,</text>
+            <text x="515" y="132" text-anchor="middle" font-size="10.5" fill="#5c6b76">logistic regression</text>
+
+            <!-- output -->
+            <rect x="640" y="72" width="130" height="70" rx="10" fill="#f3e4d4" stroke="#a2652c" stroke-width="1.5"/>
+            <text x="705" y="100" text-anchor="middle" font-size="12.5" font-weight="600" fill="#7a4a1e">Prediction</text>
+            <text x="705" y="120" text-anchor="middle" font-size="10.5" fill="#5c6b76">"likely to churn"</text>
+
+            <!-- explainable badge -->
+            <rect x="800" y="80" width="150" height="54" rx="10" fill="#f7f6f2" stroke="#0f5e54" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="875" y="102" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0b4a42">You can explain it</text>
+            <text x="875" y="120" text-anchor="middle" font-size="10.5" fill="#5c6b76">"because month-to-month"</text>
+          </g>
+
+          <g stroke="#8a9199" stroke-width="2" fill="#8a9199">
+            <line x1="162" y1="107" x2="206" y2="107"/><path d="M 206 107 l -9 -5 v 10 z"/>
+            <line x1="392" y1="107" x2="436" y2="107"/><path d="M 436 107 l -9 -5 v 10 z"/>
+            <line x1="587" y1="107" x2="631" y2="107"/><path d="M 631 107 l -9 -5 v 10 z"/>
+            <line x1="772" y1="107" x2="793" y2="107" stroke-dasharray="4 3"/><path d="M 793 107 l -9 -5 v 10 z"/>
+          </g>
+
+          <!-- divider -->
+          <line x1="30" y1="196" x2="950" y2="196" stroke="#d5d1c7" stroke-width="1.5"/>
+
+          <!-- ============ DEEP LEARNING ============ -->
+          <text x="30" y="232" font-family="Fraunces, Georgia, serif" font-size="16" font-weight="700" fill="#6e4a8e">Deep Learning</text>
+          <text x="30" y="252" font-family="Inter, sans-serif" font-size="12" fill="#5c6b76">the model works out what matters</text>
+
+          <g font-family="Inter, sans-serif">
+            <!-- raw data -->
+            <rect x="30" y="272" width="130" height="70" rx="10" fill="#f7f6f2" stroke="#b9b3a6" stroke-width="1.5"/>
+            <text x="95" y="300" text-anchor="middle" font-size="12.5" font-weight="600" fill="#22303a">Raw data</text>
+            <text x="95" y="318" text-anchor="middle" font-size="10.5" fill="#5c6b76">retinal photographs,</text>
+            <text x="95" y="332" text-anchor="middle" font-size="10.5" fill="#5c6b76">pixels only</text>
+
+            <!-- layers box -->
+            <rect x="215" y="258" width="370" height="102" rx="10" fill="#e6dff0" stroke="#6e4a8e" stroke-width="2.5"/>
+            <text x="400" y="278" text-anchor="middle" font-size="12.5" font-weight="700" fill="#54366e">Layers learn the features themselves</text>
+          </g>
+
+          <!-- layer stages inside -->
+          <g font-family="Inter, sans-serif">
+            <rect x="228" y="288" width="106" height="58" rx="8" fill="#f7f6f2" stroke="#6e4a8e" stroke-width="1.2"/>
+            <text x="281" y="310" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">edges,</text>
+            <text x="281" y="326" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">gradients</text>
+
+            <rect x="347" y="288" width="106" height="58" rx="8" fill="#f7f6f2" stroke="#6e4a8e" stroke-width="1.2"/>
+            <text x="400" y="310" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">shapes,</text>
+            <text x="400" y="326" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">lesions</text>
+
+            <rect x="466" y="288" width="106" height="58" rx="8" fill="#f7f6f2" stroke="#6e4a8e" stroke-width="1.2"/>
+            <text x="519" y="310" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">disease</text>
+            <text x="519" y="326" text-anchor="middle" font-size="10.5" font-weight="600" fill="#54366e">severity</text>
+          </g>
+          <g stroke="#6e4a8e" stroke-width="1.5" fill="#6e4a8e" opacity="0.7">
+            <line x1="336" y1="317" x2="344" y2="317"/><path d="M 345 317 l -7 -4 v 8 z"/>
+            <line x1="455" y1="317" x2="463" y2="317"/><path d="M 464 317 l -7 -4 v 8 z"/>
+          </g>
+
+          <g font-family="Inter, sans-serif">
+            <!-- output -->
+            <rect x="640" y="272" width="130" height="70" rx="10" fill="#f3e4d4" stroke="#a2652c" stroke-width="1.5"/>
+            <text x="705" y="300" text-anchor="middle" font-size="12.5" font-weight="600" fill="#7a4a1e">Prediction</text>
+            <text x="705" y="320" text-anchor="middle" font-size="10.5" fill="#5c6b76">"severe retinopathy"</text>
+
+            <!-- black box badge -->
+            <rect x="800" y="280" width="150" height="54" rx="10" fill="#f7f6f2" stroke="#a63d55" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="875" y="302" text-anchor="middle" font-size="11.5" font-weight="700" fill="#a63d55">Harder to explain</text>
+            <text x="875" y="320" text-anchor="middle" font-size="10.5" fill="#5c6b76">millions of learned weights</text>
+          </g>
+
+          <g stroke="#8a9199" stroke-width="2" fill="#8a9199">
+            <line x1="162" y1="307" x2="206" y2="307"/><path d="M 206 307 l -9 -5 v 10 z"/>
+            <line x1="587" y1="307" x2="631" y2="307"/><path d="M 631 307 l -9 -5 v 10 z"/>
+            <line x1="772" y1="307" x2="793" y2="307" stroke-dasharray="4 3"/><path d="M 793 307 l -9 -5 v 10 z"/>
+          </g>
+
+          <!-- Bottom takeaway -->
+          <text x="490" y="400" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#5c6b76">
+            The only structural difference: who does the feature engineering — the human, or the layers.
+          </text>
+        </svg>
+        <figcaption>
+          Both pipelines start with raw data and end with a prediction. What changes is the middle:
+          traditional machine learning needs a person to decide which characteristics matter, while
+          deep learning discovers them across its layers — buying capability, and paying for it in
+          data, compute, and transparency.
+        </figcaption>
+      </figure>
+    </div>
+
+    <article class="container">
+      <h2>The two cases from the report</h2>
+      <p>
+        The full report works through one real-world application of each approach and argues why
+        swapping them would fail. In short:
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <div class="cases">
+        <div class="case">
+          <span class="badge">Traditional ML · SVM</span>
+          <h3>Customer churn prediction</h3>
+          <p>Telecom and subscription providers scoring which customers are about to cancel, from structured account records.</p>
+          <ul>
+            <li>Data already structured — the columns <em>are</em> the features</li>
+            <li>Modest data; trains in minutes on ordinary hardware</li>
+            <li>The reason drives the retention offer, so it must be explainable</li>
+            <li class="no">Deep learning: no raw structure to exploit, more cost, no accuracy gain</li>
+          </ul>
+        </div>
+        <div class="case dl">
+          <span class="badge">Deep Learning · CNN</span>
+          <h3>Diabetic retinopathy screening</h3>
+          <p>Detecting a leading cause of preventable blindness from retinal photographs, where specialists are scarce.</p>
+          <ul>
+            <li>Input is raw pixels — exactly what deep learning is for</li>
+            <li>Lesion patterns are too subtle and variable to hand-code</li>
+            <li>Large expertly graded image sets exist to learn from</li>
+            <li class="no">Traditional ML: pixels as flat features lose all spatial meaning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <article class="container">
+      <div class="callout">
+        <strong>The test I use:</strong> do the meaningful features already exist in the data, and
+        can a person name them? If yes, traditional machine learning is almost certainly the right
+        call. If the thing that matters is something experts recognize but cannot fully write
+        down — a lesion, a face, the meaning of a sentence — that is when it is worth paying for
+        deep learning.
+      </div>
+      <p>
+        The course lesson puts it well: traditional machine learning is like giving a student a
+        checklist of what to look for; deep learning is like teaching the student to read and
+        letting them work out from experience what matters. A checklist is faster, cheaper, and
+        easier to audit — right up until the moment nobody can write the checklist.
+      </p>
+    </article>
+  </main>
+
+  <div class="credit">
+    <div class="container">
+      Visual companion to a report written by <a href="../../about.html">Dominic Ndondo</a> for
+      AIML-500 (Machine Learning Fundamentals) — August 2026. Diagram hand-coded in SVG.
+      <a href="ml-vs-deep-learning-report.pdf">Read the full report (PDF)</a> ·
+      Part of my <a href="../../artifacts/artifact-4.html">professional portfolio</a>.
+    </div>
+  </div>
+</body>
+</html>

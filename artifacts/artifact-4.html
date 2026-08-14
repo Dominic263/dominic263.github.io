@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning vs. Deep Learning — Applied Report — Dominic Ndondo</title>
+  <meta name="description" content="AIML-500 artifact: an applied report comparing traditional machine learning and deep learning through two real-world applications, with a visual companion.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../index.html" class="nav-brand">Dominic<span>&nbsp;Ndondo</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../artifacts.html" class="active">Artifacts</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p style="margin-bottom: 0.75rem;"><a href="../artifacts.html">← All artifacts</a></p>
+        <h1>Matching the Method to the Problem — ML vs. Deep Learning</h1>
+        <p class="lede">
+          <em>Introduction:</em> An applied report that takes two real-world systems — customer
+          churn prediction and diabetic retinopathy screening — and argues why each demands the
+          approach it uses, and why swapping them would fail.
+        </p>
+      </div>
+    </section>
+
+    <div class="container artifact-layout">
+      <article class="prose">
+        <h2>Description</h2>
+        <p>
+          Deep learning is routinely described as the more advanced form of machine learning,
+          as though the choice between them were a question of sophistication. This report
+          argues that the choice is a diagnosis, not a ranking. Deep learning is a subset of
+          machine learning distinguished by one capability — it learns features directly from
+          raw data instead of being handed features a human selected — and that single
+          difference determines how much data a system needs, how much compute it costs, and
+          whether anyone will be able to explain its output.
+        </p>
+        <p>
+          The report examines two examples from the course lesson. <strong>Customer churn
+          prediction with a support vector machine</strong> is traced to its real-world use in
+          telecommunications and subscription retention, where structured account data and the
+          need to justify an intervention make traditional machine learning the correct choice.
+          <strong>Image recognition with a convolutional neural network</strong> is traced to
+          diabetic retinopathy screening, where raw retinal photographs and visual patterns too
+          subtle to hand-code make deep learning the only workable approach. For each case, the
+          report also makes the negative argument — why the opposite method would fail — which
+          is where the real reasoning lives.
+        </p>
+        <p>
+          For the portfolio, I paired the written report with a visual companion page built
+          around a hand-coded SVG diagram that puts both pipelines side by side, so the
+          structural difference is visible in a glance rather than only argued in prose.
+        </p>
+
+        <div class="deliverable-box">
+          <h3>The Deliverables</h3>
+          <p>
+            <strong>1. The report (PDF)</strong> — an APA-formatted applied report with a
+            comparison table and six cited sources.
+          </p>
+          <p style="margin-top: 0.75rem;">
+            <strong>2. The visual companion</strong> — a designed explainer page with the
+            two-pipeline diagram:
+          </p>
+          <iframe src="../assets/artifact-4/ml-vs-deep-learning.html" title="Two Problems, Two Tools — visual companion comparing machine learning and deep learning" style="width: 100%; height: 620px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff;"></iframe>
+          <p style="margin-top: 1rem;">
+            <a class="btn btn-primary" href="../assets/artifact-4/ml-vs-deep-learning-report.pdf" download="Ndondo_ML_vs_Deep_Learning_Report.pdf">Download the report (PDF)</a>
+            <a class="btn btn-secondary" href="../assets/artifact-4/ml-vs-deep-learning.html">Open the visual companion</a>
+          </p>
+        </div>
+
+        <h2>Objective</h2>
+        <p>
+          Created for the Workshop 2 assignment in AIML-500, which asked me to select two
+          machine learning examples from the lesson — one specifically of deep learning — find
+          a real-world application of each, and explain why that approach suits the problem
+          while the other does not. Beyond the assignment, my objective was to move past
+          definitions and demonstrate the judgment an AI practitioner is actually paid for:
+          choosing the right tool for a problem's data, constraints, and accountability
+          requirements.
+        </p>
+
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Selecting the pair:</strong> I deliberately chose two examples that fail in opposite directions — structured tabular data against raw pixel data — so the comparison would isolate the variable that actually matters rather than comparing two similar problems.</li>
+          <li><strong>Grounding each in reality:</strong> I traced each example to a documented real-world deployment rather than a hypothetical, including the published clinical validation of deep learning for diabetic retinopathy screening.</li>
+          <li><strong>Building the negative case:</strong> For each application I worked out specifically why the alternative approach breaks — not "it would be worse," but the mechanism of the failure, such as an SVM treating a million pixels as unordered independent values with no spatial relationship.</li>
+          <li><strong>Writing and citing:</strong> I wrote the report in APA format with a comparison table and supported the technical claims with peer-reviewed sources, including research on why tree-based methods still outperform deep networks on tabular data.</li>
+          <li><strong>Designing the companion:</strong> I hand-coded the two-pipeline SVG diagram so the report's central claim — that the only structural difference is who performs the feature engineering — is legible at a glance.</li>
+        </ol>
+
+        <h2>Tools &amp; Technologies Used</h2>
+        <ul>
+          <li>APA 7 report writing and academic source evaluation</li>
+          <li>HTML &amp; CSS (visual companion page, consistent with this portfolio's design system)</li>
+          <li>Hand-coded SVG (the comparison diagram, drawn as code)</li>
+          <li>GitHub Pages (public hosting of both deliverables)</li>
+          <li>Claude (Anthropic) — structural editing and refinement, disclosed in the report</li>
+        </ul>
+
+        <h2>Value Proposition</h2>
+        <h3>Unique Value</h3>
+        <p>
+          Knowing what deep learning <em>is</em> is table stakes; knowing when <em>not</em> to
+          reach for it is the more valuable and rarer judgment. This artifact shows I can
+          evaluate a problem on its actual constraints — data structure, data volume,
+          interpretability requirements, operational cost — and defend a technical
+          recommendation in both directions, including recommending the simpler tool when the
+          fashionable one would add cost without accuracy.
+        </p>
+        <h3>Relevance</h3>
+        <p>
+          Organizations waste substantial money applying deep learning to problems that never
+          needed it, and lose credibility deploying black-box models where a decision must be
+          explained. The reasoning in this report is the reasoning that prevents both failures,
+          and it doubles as a resource any reader can apply as a checklist to their own
+          problem: do the meaningful features already exist, and can a person name them?
+        </p>
+
+        <h2>Attribution &amp; AI Use</h2>
+        <p>
+          The example selection, arguments, and conclusions are my own. I used Claude
+          (Anthropic) to help organize the report's structure and refine its wording; the
+          disclosure appears in the report itself. All sources are cited in APA format on the
+          report's reference page.
+        </p>
+      </article>
+
+      <aside class="artifact-meta">
+        <h4>Course</h4>
+        <ul><li>AIML-500 · Workshop 2</li></ul>
+        <h4>Type</h4>
+        <ul><li>Applied report (PDF) + visual companion</li></ul>
+        <h4>Tools</h4>
+        <ul>
+          <li>APA 7 research writing</li>
+          <li>HTML / CSS / SVG</li>
+          <li>GitHub Pages</li>
+          <li>Claude (disclosed)</li>
+        </ul>
+        <h4>Date</h4>
+        <ul><li>August 2026</li></ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Dominic<span>&nbsp;Ndondo</span></div>
+          <p>A professional portfolio and resource site — evidence of growth in AI and machine learning at Indiana Wesleyan University.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../artifacts.html">Artifacts</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Dominic Ndondo · Built for AIML-500, Indiana Wesleyan University
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
