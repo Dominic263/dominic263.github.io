@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigating Human Bias — Personal Value Statement — Dominic Ndondo</title>
+  <meta name="description" content="AIML-500 artifact: a personal value statement on navigating human bias in AI and research, with four actionable strategies and a layered-review diagram.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../index.html" class="nav-brand">Dominic<span>&nbsp;Ndondo</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../artifacts.html" class="active">Artifacts</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p style="margin-bottom: 0.75rem;"><a href="../artifacts.html">&larr; All artifacts</a></p>
+        <h1>Navigating Human Bias &mdash; A Personal Value Statement</h1>
+        <p class="lede">
+          <em>Introduction:</em> A statement of what I stand for when bias enters technical
+          work, and four concrete strategies for building teams that catch what any one person
+          would miss &mdash; drawn from how large physics collaborations guard their own results.
+        </p>
+      </div>
+    </section>
+
+    <div class="container artifact-layout">
+      <article class="prose">
+        <h2>Description</h2>
+        <p>
+          This artifact is a personal value statement on navigating human bias in AI and
+          research, together with four strategies for acting on it. Its central claim is that
+          bias in technical work is rarely dramatic. It shows up quietly &mdash; in assumptions
+          about which data is "good enough," whose analysis gets trusted without a second look,
+          and which voices are heard first in a room full of experts. The conclusion I draw
+          from that is deliberately unsentimental: the goal is not a team of unbiased people,
+          because good intentions are not a control. The goal is a process with enough
+          independent checks that a blind spot has to get past several of them to reach the
+          result.
+        </p>
+        <p>
+          The four strategies follow from that premise. <strong>Structured disagreement</strong>
+          treats peer review as a habit rather than an event and assigns someone to argue
+          against the consensus. <strong>Visible data decisions</strong> require a written
+          rationale for data selection and labeling, and tracked provenance, on the principle
+          that you cannot correct a bias you cannot trace. <strong>Diversifying who gets to ask
+          questions</strong> brings cross-disciplinary reviewers in before deployment and lowers
+          the barrier for junior people to raise concerns. <strong>Modeling uncertainty rather
+          than confidence</strong> means saying "I might be wrong here" out loud and revisiting
+          key decisions on a schedule instead of only when something visibly breaks.
+        </p>
+        <p>
+          For the portfolio, I expanded the discussion post into a designed page and added a
+          hand-coded diagram of layered review. Four different kinds of bias enter from the
+          left, and each is stopped by the specific strategy built to catch it &mdash; the
+          unquestioned consensus by structured disagreement, the insider blind spot by outside
+          reviewers. Each layer is drawn with gaps in different places, because the argument is
+          not that any single check is reliable. It is that the gaps do not line up.
+        </p>
+
+        <div class="deliverable-box">
+          <h3>The Deliverable</h3>
+          <p>
+            The statement lives at
+            <a href="../assets/artifact-5/personal-value-statement.html"><strong>dominic263.github.io/assets/artifact-5/personal-value-statement.html</strong></a>
+            &mdash; or read it right here:
+          </p>
+          <iframe src="../assets/artifact-5/personal-value-statement.html" title="The Quiet Kind of Bias &mdash; personal value statement on navigating human bias" style="width: 100%; height: 620px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff;"></iframe>
+          <p style="margin-top: 1rem;">
+            <a class="btn btn-primary" href="../assets/artifact-5/personal-value-statement.html">Open the full statement</a>
+          </p>
+        </div>
+
+        <h2>Objective</h2>
+        <p>
+          Created for the Workshop 4 discussion on navigating human bias in AI/ML, which asked
+          for a personal value statement and concrete strategies to fulfill it. My objective
+          was to write something I could actually be held to. It would have been easy to
+          produce a statement about valuing fairness and diversity that no one could disagree
+          with and no one could act on. I wanted the opposite: a specific claim about how bias
+          behaves, and strategies precise enough that a teammate could tell whether I was
+          following them.
+        </p>
+
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Starting from experience, not principle:</strong> rather than beginning with abstract values, I started from what I have actually watched happen in research collaborations &mdash; the assumptions that go unchallenged because everyone already agrees with them.</li>
+          <li><strong>Identifying the real failure mode:</strong> working out that the problem is not bad actors but good-faith teams with correlated blind spots led directly to the thesis that process, not intention, is the control.</li>
+          <li><strong>Borrowing from physics:</strong> large collaborations already solve a version of this. Independent groups cross-check results before anyone claims a discovery, and provenance is tracked for every measurement. I translated that culture into four strategies for AI work.</li>
+          <li><strong>Making each strategy testable:</strong> I wrote every strategy as two concrete practices rather than a sentiment, so each one describes a behavior somebody could observe.</li>
+          <li><strong>Designing the layered-review diagram:</strong> I hand-coded the SVG so the central argument &mdash; that checks work because their gaps sit in different places &mdash; is visible rather than only asserted.</li>
+        </ol>
+
+        <h2>Tools &amp; Technologies Used</h2>
+        <ul>
+          <li>Applied AI ethics frameworks (bias in data selection, labeling, and review)</li>
+          <li>Research collaboration practice (peer review, provenance tracking, independent cross-checks)</li>
+          <li>HTML &amp; CSS (designed statement page, consistent with this portfolio's design system)</li>
+          <li>Hand-coded SVG (the layered-review diagram)</li>
+          <li>GitHub Pages (public hosting)</li>
+        </ul>
+
+        <h2>Value Proposition</h2>
+        <h3>Unique Value</h3>
+        <p>
+          Most statements about AI fairness commit their author to nothing. This one commits me
+          to specific, checkable behaviors, and it brings an angle that comes from my own
+          background rather than from a textbook: experimental physics has spent decades
+          building institutional habits for not trusting a single group's result, and those
+          habits transfer directly to AI development. The artifact demonstrates that I can
+          reason about ethics as a systems problem &mdash; designing for the failure mode rather
+          than appealing to good intentions.
+        </p>
+        <h3>Relevance</h3>
+        <p>
+          Organizations deploying AI increasingly have to answer for how a model reached a
+          decision and who checked it before it shipped. Teams need people who can build that
+          review capability into normal practice instead of treating it as a compliance step at
+          the end. This statement is a working example of that thinking, and the four strategies
+          are directly reusable: any team can adopt devil's advocate roles, written data
+          rationales, cross-disciplinary review, and scheduled revisits without new tooling.
+        </p>
+
+        <h2>Attribution</h2>
+        <p>
+          The value statement and strategies are my own, written for the AIML-500 Workshop 4
+          discussion on navigating human bias. The page design and layered-review diagram were
+          created for this portfolio.
+        </p>
+      </article>
+
+      <aside class="artifact-meta">
+        <h4>Course</h4>
+        <ul><li>AIML-500 &middot; Workshop 4 &middot; Navigating Human Bias</li></ul>
+        <h4>Type</h4>
+        <ul><li>Personal value statement (leadership &amp; ethics)</li></ul>
+        <h4>Tools</h4>
+        <ul>
+          <li>Applied AI ethics</li>
+          <li>HTML / CSS / SVG</li>
+          <li>GitHub Pages</li>
+        </ul>
+        <h4>Date</h4>
+        <ul><li>August 2026</li></ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Dominic<span>&nbsp;Ndondo</span></div>
+          <p>A professional portfolio and resource site — evidence of growth in AI and machine learning at Indiana Wesleyan University.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../artifacts.html">Artifacts</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Dominic Ndondo · Built for AIML-500, Indiana Wesleyan University
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
