@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When the Data Fights Back — A Field Guide by Dominic Ndondo</title>
+  <meta name="description" content="A practical field guide to the three data problems every machine learning project runs into: missing data, imbalanced classes, and drift — how to recognize each and what to do about it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eceae4;
+      --surface: #f7f6f2;
+      --ink: #22303a;
+      --muted: #5c6b76;
+      --border: #d5d1c7;
+      --teal: #0f5e54;
+      --teal-soft: #dbe7e2;
+      --amber: #a2652c;
+      --amber-soft: #f3e4d4;
+      --crimson: #a63d55;
+      --violet: #6e4a8e;
+      --radius: 12px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 1.04rem;
+    }
+    .container { width: min(760px, 93%); margin: 0 auto; }
+    .container-wide { width: min(1040px, 95%); margin: 0 auto; }
+
+    header {
+      text-align: center;
+      padding: 4rem 0 2.5rem;
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(15, 94, 84, 0.09), transparent);
+    }
+    header .kicker {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 6vw, 3.4rem);
+      line-height: 1.12;
+      margin-bottom: 0.9rem;
+    }
+    header .sub { color: var(--muted); max-width: 40rem; margin: 0 auto; }
+
+    article { padding: 2rem 0 1rem; }
+    article p { margin-bottom: 1.25rem; }
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      margin: 3rem 0 0.4rem;
+    }
+    h2 .n {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-right: 0.6rem;
+      vertical-align: middle;
+    }
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin: 1.9rem 0 0.6rem;
+    }
+    .scenario {
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-left: 3px solid var(--amber);
+      padding-left: 1rem;
+      margin-bottom: 1.4rem;
+      font-style: italic;
+    }
+
+    /* Diagnostic table */
+    .diag {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 0.93rem;
+      margin: 2rem 0;
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    .diag th, .diag td {
+      text-align: left;
+      padding: 0.85rem 1rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .diag thead th {
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .diag tbody tr:last-child td { border-bottom: none; }
+    .diag td:first-child { color: var(--ink); font-weight: 500; }
+    .diag td:nth-child(2), .diag td:nth-child(3) { color: var(--muted); }
+    .table-wrap { overflow-x: auto; }
+
+    figure { margin: 2.5rem auto; text-align: center; }
+    figure svg {
+      width: 100%; height: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(34,48,58,0.07), 0 8px 22px rgba(34,48,58,0.06);
+    }
+    figcaption {
+      font-size: 0.87rem; color: var(--muted);
+      margin-top: 0.75rem; max-width: 44rem;
+      margin-left: auto; margin-right: auto;
+    }
+
+    .callout {
+      background: var(--teal-soft);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.15rem 1.5rem;
+      margin: 1.8rem 0;
+      font-size: 0.97rem;
+    }
+    .callout strong { color: var(--teal); }
+    .callout.warn {
+      background: #f7e6e9;
+      border-left-color: var(--crimson);
+    }
+    .callout.warn strong { color: var(--crimson); }
+
+    .moves {
+      list-style: none;
+      margin: 0.5rem 0 1.4rem;
+    }
+    .moves li {
+      position: relative;
+      padding-left: 1.6rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.97rem;
+    }
+    .moves li::before {
+      content: "→";
+      position: absolute; left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+    .moves strong { color: var(--ink); }
+
+    .refs {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin: 2.5rem 0 1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .refs h3 { margin-top: 0; font-size: 1.05rem; color: var(--ink); }
+    .refs p { text-indent: -1.3rem; padding-left: 1.3rem; margin-bottom: 0.7rem; }
+    .refs a { color: var(--teal); }
+
+    .credit {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.75rem 0 3rem;
+      font-size: 0.87rem; color: var(--muted); text-align: center;
+    }
+    .credit a { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <span class="kicker">AIML-500 · Artifact 6 · A Resource for the Class</span>
+      <h1>When the Data Fights Back</h1>
+      <p class="sub">
+        A field guide to the three problems every machine learning project runs into —
+        missing data, imbalanced classes, and drift. How to recognize each one, and what to
+        do first.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <article class="container">
+      <p>
+        Most of what goes wrong in a machine learning project is not the model. It is the data.
+        A model that trains cleanly and scores well can still be quietly useless, and in almost
+        every case the cause is one of three things: information that is missing, classes that
+        are lopsided, or a world that moved after training finished.
+      </p>
+      <p>
+        I worked through these three scenarios in a course roleplay, and it struck me that they
+        are the failures nobody warns you about in a tutorial, because tutorial datasets are
+        already clean. So I wrote this as a reference for my classmates and for anyone starting
+        their first real project. Each section covers what the problem looks like, why the
+        obvious fix is often wrong, and what to actually do.
+      </p>
+
+      <div class="table-wrap">
+        <table class="diag">
+          <thead>
+            <tr>
+              <th style="width:32%">What you notice</th>
+              <th style="width:30%">What is probably happening</th>
+              <th style="width:38%">First move</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Whole columns are blank for certain groups of records</td>
+              <td>Missing data that is <em>not</em> random</td>
+              <td>Ask why it is missing before deciding how to fill it</td>
+            </tr>
+            <tr>
+              <td>Accuracy is superb but the model never flags the thing you care about</td>
+              <td>Class imbalance, plus the wrong metric</td>
+              <td>Stop reporting accuracy; look at recall and precision</td>
+            </tr>
+            <tr>
+              <td>The model performed well at launch and is slowly getting worse</td>
+              <td>Data or concept drift</td>
+              <td>Compare recent inputs to training inputs, then retrain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2><span class="n">1</span>Missing Data</h2>
+      <p class="scenario">
+        Scenario: a telecom company wants to predict which customers will cancel. Thousands of
+        records have no value for monthly charges, and the satisfaction survey field is empty
+        for a large share of customers.
+      </p>
+      <p>
+        The tempting fixes are to delete the incomplete rows or to fill every gap with the
+        column average. Both are fast, and both can quietly damage the model — because they
+        assume the gaps are accidents. Usually they are not.
+      </p>
+
+      <div class="callout warn">
+        <strong>The trap:</strong> the fact that a value is missing is often itself a signal.
+        If unhappy customers are the ones who skip the satisfaction survey, then deleting those
+        rows throws away exactly the customers you are trying to predict, and filling them with
+        the average makes them look typical. You have not cleaned the data; you have erased the
+        pattern.
+      </div>
+
+      <h3>What to do instead</h3>
+      <ul class="moves">
+        <li><strong>Ask why it is missing first.</strong> A field missing at random (a form glitch) is a different problem from a field missing <em>because</em> of the very thing you are predicting. The second kind is the dangerous kind.</li>
+        <li><strong>Add a "was missing" flag.</strong> Create a column recording that the value was absent, then impute the value. The model can learn from the absence itself instead of losing it.</li>
+        <li><strong>Impute with context, not with the global average.</strong> Filling a missing monthly charge with the median for that contract type is far better than the median for everyone.</li>
+        <li><strong>Delete only when the missingness is genuinely random and small.</strong> Dropping rows is a legitimate option, but it should be a decision you can defend, not a default.</li>
+        <li><strong>Write down what you chose and why.</strong> Six months later, nobody remembers which gaps were filled or how, and every downstream result depends on it.</li>
+      </ul>
+
+      <h2><span class="n">2</span>Imbalanced Data</h2>
+      <p class="scenario">
+        Scenario: a fraud detection model. In the training data, the overwhelming majority of
+        transactions are legitimate and only a tiny fraction are fraudulent.
+      </p>
+      <p>
+        This is the failure that looks like success. Suppose that out of every 1,000
+        transactions, 2 are fraud. A model that simply predicts "not fraud" for every single
+        transaction is correct 998 times out of 1,000. It reports 99.8% accuracy, and it catches
+        no fraud at all.
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <figure>
+        <svg viewBox="0 0 940 400" role="img" aria-label="Diagram of the accuracy trap: a dataset bar showing 998 legitimate transactions and 2 fraudulent ones, compared with two models. Model A predicts no fraud ever and scores 99.8 percent accuracy while catching zero fraud. Model B scores lower accuracy but catches most fraud.">
+          <text x="26" y="40" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="700" fill="#22303a">The accuracy trap</text>
+          <text x="26" y="60" font-family="Inter, sans-serif" font-size="12" fill="#5c6b76">1,000 transactions — 998 legitimate, 2 fraudulent</text>
+
+          <!-- Dataset bar -->
+          <rect x="26" y="78" width="886" height="34" rx="8" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.5"/>
+          <rect x="890" y="78" width="22" height="34" rx="6" fill="#a63d55"/>
+          <text x="460" y="100" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#0b4a42">998 legitimate</text>
+          <text x="901" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#a63d55">2 fraud</text>
+
+          <!-- Model A -->
+          <g font-family="Inter, sans-serif">
+            <rect x="26" y="160" width="430" height="200" rx="12" fill="#f7f6f2" stroke="#a63d55" stroke-width="2"/>
+            <text x="48" y="190" font-size="14" font-weight="700" fill="#a63d55">Model A — "it's never fraud"</text>
+            <text x="48" y="212" font-size="11.5" fill="#5c6b76">predicts "legitimate" for every single transaction</text>
+
+            <rect x="48" y="230" width="180" height="52" rx="8" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.2"/>
+            <text x="138" y="252" text-anchor="middle" font-size="19" font-weight="700" fill="#0b4a42">99.8%</text>
+            <text x="138" y="270" text-anchor="middle" font-size="10.5" fill="#5c6b76">accuracy</text>
+
+            <rect x="248" y="230" width="180" height="52" rx="8" fill="#f7e6e9" stroke="#a63d55" stroke-width="1.2"/>
+            <text x="338" y="252" text-anchor="middle" font-size="19" font-weight="700" fill="#a63d55">0%</text>
+            <text x="338" y="270" text-anchor="middle" font-size="10.5" fill="#5c6b76">fraud caught (recall)</text>
+
+            <text x="48" y="312" font-size="11.5" font-weight="600" fill="#a63d55">Looks excellent on the metric everyone reports.</text>
+            <text x="48" y="332" font-size="11.5" font-weight="600" fill="#a63d55">Completely worthless at the actual job.</text>
+          </g>
+
+          <!-- Model B -->
+          <g font-family="Inter, sans-serif">
+            <rect x="482" y="160" width="430" height="200" rx="12" fill="#f7f6f2" stroke="#0f5e54" stroke-width="2"/>
+            <text x="504" y="190" font-size="14" font-weight="700" fill="#0b4a42">Model B — tuned for recall</text>
+            <text x="504" y="212" font-size="11.5" fill="#5c6b76">flags suspicious transactions, accepts some false alarms</text>
+
+            <rect x="504" y="230" width="180" height="52" rx="8" fill="#f3e4d4" stroke="#a2652c" stroke-width="1.2"/>
+            <text x="594" y="252" text-anchor="middle" font-size="19" font-weight="700" fill="#7a4a1e">97%</text>
+            <text x="594" y="270" text-anchor="middle" font-size="10.5" fill="#5c6b76">accuracy (lower!)</text>
+
+            <rect x="704" y="230" width="180" height="52" rx="8" fill="#dbe7e2" stroke="#0f5e54" stroke-width="1.2"/>
+            <text x="794" y="252" text-anchor="middle" font-size="19" font-weight="700" fill="#0b4a42">85%</text>
+            <text x="794" y="270" text-anchor="middle" font-size="10.5" fill="#5c6b76">fraud caught (recall)</text>
+
+            <text x="504" y="312" font-size="11.5" font-weight="600" fill="#0b4a42">Scores worse on accuracy.</text>
+            <text x="504" y="332" font-size="11.5" font-weight="600" fill="#0b4a42">Is the model you actually want in production.</text>
+          </g>
+
+          <text x="470" y="388" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#5c6b76">
+            When one class is rare, accuracy measures how common the majority is — not how well the model works.
+          </text>
+        </svg>
+        <figcaption>
+          Accuracy figures are illustrative, chosen to make the comparison concrete. The point
+          is the shape of the result: the higher-accuracy model is the useless one.
+        </figcaption>
+      </figure>
+    </div>
+
+    <article class="container">
+      <h3>What to do instead</h3>
+      <ul class="moves">
+        <li><strong>Change the metric before you change the model.</strong> Use recall (of the fraud you missed, how much did you catch), precision (of what you flagged, how much was real), and F1 or precision-recall AUC to balance them. Accuracy is the wrong instrument here.</li>
+        <li><strong>Decide which error is more expensive.</strong> A missed fraud and a false alarm do not cost the same thing, and that ratio — not a default setting — should drive where you set the decision threshold.</li>
+        <li><strong>Rebalance the training data.</strong> Oversample the rare class, undersample the common one, or generate synthetic minority examples with a technique such as SMOTE (Chawla et al., 2002).</li>
+        <li><strong>Or reweight instead of resample.</strong> Most algorithms accept class weights, telling the model that mistakes on the rare class count for more.</li>
+        <li><strong>Always look at the confusion matrix.</strong> A single score hides which kind of mistake the model is making; the matrix shows it immediately.</li>
+      </ul>
+
+      <h2><span class="n">3</span>Data and Concept Drift</h2>
+      <p class="scenario">
+        Scenario: a housing price model that performed well at launch. A year later its
+        predictions are consistently off, though nothing about the code has changed.
+      </p>
+      <p>
+        Nothing broke. The world moved. This comes in two flavors worth telling apart.
+        <strong>Data drift</strong> means the inputs changed — the homes being listed now are
+        larger, or in different neighborhoods, than the ones the model trained on.
+        <strong>Concept drift</strong> is deeper: the relationship between the inputs and the
+        answer changed. Interest rates jump, or remote work makes a home office worth more than
+        proximity to downtown, and the meaning of "extra bedroom" is no longer what it was. The
+        model is still faithfully applying a rule that used to be true.
+      </p>
+    </article>
+
+    <div class="container-wide">
+      <figure>
+        <svg viewBox="0 0 940 380" role="img" aria-label="Chart showing model accuracy over time. Accuracy is high during and just after the training window, then declines after a market shift, and recovers after retraining.">
+          <text x="26" y="38" font-family="Fraunces, Georgia, serif" font-size="17" font-weight="700" fill="#22303a">A model is a snapshot of a world that keeps moving</text>
+
+          <!-- Axes -->
+          <line x1="80" y1="300" x2="900" y2="300" stroke="#b9b3a6" stroke-width="2"/>
+          <line x1="80" y1="70" x2="80" y2="300" stroke="#b9b3a6" stroke-width="2"/>
+          <text x="40" y="90" font-family="Inter, sans-serif" font-size="11" fill="#5c6b76">high</text>
+          <text x="36" y="296" font-family="Inter, sans-serif" font-size="11" fill="#5c6b76">low</text>
+          <text x="26" y="192" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#5c6b76" transform="rotate(-90 26 192)" text-anchor="middle">accuracy</text>
+          <text x="490" y="332" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#5c6b76">time →</text>
+
+          <!-- Training window shading -->
+          <rect x="80" y="70" width="180" height="230" fill="#dbe7e2" opacity="0.55"/>
+          <text x="170" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0b4a42">training window</text>
+
+          <!-- Market shift marker -->
+          <line x1="450" y1="70" x2="450" y2="300" stroke="#a63d55" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="458" y="88" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#a63d55">the world changes</text>
+          <text x="458" y="104" font-family="Inter, sans-serif" font-size="10.5" fill="#5c6b76">rates jump; remote work</text>
+          <text x="458" y="118" font-family="Inter, sans-serif" font-size="10.5" fill="#5c6b76">shifts what buyers value</text>
+
+          <!-- Retrain marker -->
+          <line x1="720" y1="70" x2="720" y2="300" stroke="#0f5e54" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="728" y="92" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#0b4a42">retrained</text>
+          <text x="728" y="108" font-family="Inter, sans-serif" font-size="10.5" fill="#5c6b76">on recent data</text>
+
+          <!-- Accuracy curve -->
+          <path d="M 90 110 L 260 112 L 380 118 L 450 122 C 520 150, 600 205, 700 238 L 718 242"
+                fill="none" stroke="#22303a" stroke-width="3"/>
+          <path d="M 722 160 C 780 140, 840 132, 900 130"
+                fill="none" stroke="#0f5e54" stroke-width="3"/>
+          <!-- jump connector -->
+          <line x1="720" y1="242" x2="722" y2="160" stroke="#0f5e54" stroke-width="2" stroke-dasharray="4 3"/>
+
+          <!-- Decay label -->
+          <text x="500" y="262" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#a63d55">silent decay — no error, no alert,</text>
+          <text x="500" y="278" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#a63d55">just steadily worse predictions</text>
+
+          <!-- Deploy marker -->
+          <circle cx="260" cy="112" r="5" fill="#0f5e54"/>
+          <text x="252" y="100" text-anchor="end" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#0b4a42">deployed</text>
+
+          <text x="490" y="362" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#5c6b76">
+            Nothing in the code changed. That is what makes drift hard to notice without monitoring.
+          </text>
+        </svg>
+        <figcaption>
+          Drift does not announce itself. The model keeps running, the pipeline keeps
+          succeeding, and only the predictions get worse — which is why detecting it has to be a
+          scheduled activity rather than a reaction.
+        </figcaption>
+      </figure>
+    </div>
+
+    <article class="container">
+      <h3>What to do instead</h3>
+      <ul class="moves">
+        <li><strong>Monitor the inputs, not just the outputs.</strong> Compare the distribution of recent data against the training data. Inputs usually shift before performance visibly collapses.</li>
+        <li><strong>Keep measuring accuracy after launch.</strong> A model with no ongoing evaluation is a model nobody is checking. Hold out recent data specifically to test whether last year's rules still hold.</li>
+        <li><strong>Schedule retraining instead of waiting for complaints.</strong> How often depends on how fast your domain moves — housing and fraud shift quickly; handwriting recognition does not.</li>
+        <li><strong>Tell data drift and concept drift apart.</strong> If the inputs look the same but accuracy fell, the underlying relationship changed, and simply adding more data of the same kind will not save you.</li>
+        <li><strong>Treat the model as a system with maintenance, not a finished deliverable</strong> — the long-term cost of an ML system is mostly in what happens after deployment (Sculley et al., 2015).</li>
+      </ul>
+
+      <h2 style="margin-top:3.2rem;">The common thread</h2>
+      <p>
+        These three problems look unrelated, but the same instinct solves all of them: be
+        suspicious of a number that looks good. A clean dataset that got clean by deleting
+        inconvenient rows, a 99.8% accuracy on a rare event, a model that has not been evaluated
+        since launch — each one is a reassuring result that has stopped describing reality.
+      </p>
+      <p>
+        The habit worth building is asking what a good-looking metric might be hiding, and then
+        going to check. That is not a data science skill so much as a research one, and it is
+        the difference between a model that scores well and a model that works.
+      </p>
+
+      <div class="callout">
+        <strong>Using this guide:</strong> the diagnostic table near the top is the part worth
+        keeping. When something feels off with a project, start from the symptom you can
+        actually observe, and work back to the cause from there.
+      </div>
+
+      <div class="refs">
+        <h3>References &amp; further reading</h3>
+        <p>Chawla, N. V., Bowyer, K. W., Hall, L. O., &amp; Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. <em>Journal of Artificial Intelligence Research, 16</em>, 321&ndash;357.</p>
+        <p>Gama, J., &Zcaron;liobait&#279;, I., Bifet, A., Pechenizkiy, M., &amp; Bouchachia, A. (2014). A survey on concept drift adaptation. <em>ACM Computing Surveys, 46</em>(4), 1&ndash;37.</p>
+        <p>Little, R. J. A., &amp; Rubin, D. B. (2019). <em>Statistical analysis with missing data</em> (3rd ed.). Wiley.</p>
+        <p>Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., &amp; Dennison, D. (2015). Hidden technical debt in machine learning systems. <em>Advances in Neural Information Processing Systems, 28</em>.</p>
+      </div>
+    </article>
+  </main>
+
+  <div class="credit">
+    <div class="container">
+      A field guide written by <a href="../../about.html">Dominic Ndondo</a> for AIML-500
+      (Machine Learning Fundamentals), developed from the Workshop 4 data challenges roleplay —
+      August 2026. Diagrams hand-coded in SVG. Free to use and share with attribution.
+      Part of my <a href="../../artifacts/artifact-6.html">professional portfolio</a>.
+    </div>
+  </div>
+</body>
+</html>

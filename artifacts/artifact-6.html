@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When the Data Fights Back — A Field Guide — Dominic Ndondo</title>
+  <meta name="description" content="AIML-500 artifact: a practical field guide to missing data, imbalanced classes, and drift — written as a reusable resource for classmates and new practitioners.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../index.html" class="nav-brand">Dominic<span>&nbsp;Ndondo</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../artifacts.html" class="active">Artifacts</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p style="margin-bottom: 0.75rem;"><a href="../artifacts.html">&larr; All artifacts</a></p>
+        <h1>When the Data Fights Back &mdash; A Field Guide</h1>
+        <p class="lede">
+          <em>Introduction:</em> A practical reference to the three data problems every machine
+          learning project runs into &mdash; missing data, imbalanced classes, and drift &mdash;
+          written for classmates and anyone starting their first real project.
+        </p>
+      </div>
+    </section>
+
+    <div class="container artifact-layout">
+      <article class="prose">
+        <h2>Description</h2>
+        <p>
+          Most of what goes wrong in a machine learning project is not the model; it is the
+          data. This field guide covers the three failures that cause most of that trouble, each
+          built around a scenario I worked through in a course roleplay: <strong>missing
+          data</strong> in a telecom churn dataset, <strong>imbalanced classes</strong> in fraud
+          detection, and <strong>data and concept drift</strong> in a housing price model.
+        </p>
+        <p>
+          Each section is written the same way &mdash; what the problem looks like in practice,
+          why the obvious fix is usually wrong, and what to do instead. The guide opens with a
+          diagnostic table that starts from the symptom a person can actually observe ("accuracy
+          is superb but the model never flags the thing you care about") and works back to the
+          likely cause and the first move. Two hand-coded diagrams carry the ideas that are
+          hardest to convey in prose: the accuracy trap, where a model scoring 99.8% catches
+          zero fraud, and the silent decay of a deployed model after the world it learned has
+          moved.
+        </p>
+        <p>
+          The guide is written deliberately as a resource for other people rather than as
+          evidence of my own learning. My classmates will hit all three of these problems, and
+          the point of a portfolio, per this course, is to be a resource site others can learn
+          from &mdash; so I wrote the reference I wish I had been handed at the start.
+        </p>
+
+        <div class="deliverable-box">
+          <h3>The Deliverable</h3>
+          <p>
+            The field guide lives at
+            <a href="../assets/artifact-6/data-challenges-field-guide.html"><strong>dominic263.github.io/assets/artifact-6/data-challenges-field-guide.html</strong></a>
+            &mdash; or read it right here:
+          </p>
+          <iframe src="../assets/artifact-6/data-challenges-field-guide.html" title="When the Data Fights Back &mdash; a field guide to missing data, imbalanced classes, and drift" style="width: 100%; height: 620px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff;"></iframe>
+          <p style="margin-top: 1rem;">
+            <a class="btn btn-primary" href="../assets/artifact-6/data-challenges-field-guide.html">Open the full field guide</a>
+          </p>
+        </div>
+
+        <h2>Objective</h2>
+        <p>
+          Developed from the Workshop 4 data challenges roleplay, in which I worked through
+          three scenarios with an AI coach: handling missing values, training on imbalanced
+          data, and responding to drift. My objective in expanding those notes was to produce
+          something with a life beyond the assignment &mdash; a guide a classmate could open
+          mid-project, find their symptom in a table, and get an actionable answer. That meant
+          organizing it around what someone <em>observes</em> rather than around textbook
+          categories.
+        </p>
+
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Working the scenarios:</strong> I reasoned through each of the three cases in the roleplay &mdash; telecom churn with missing fields, fraud detection with extreme class imbalance, and a housing model degrading after launch.</li>
+          <li><strong>Finding the trap in each:</strong> rather than listing techniques, I identified the specific wrong instinct each problem invites &mdash; deleting incomplete rows, trusting accuracy, and assuming a deployed model stays correct.</li>
+          <li><strong>Reorganizing around symptoms:</strong> I built the diagnostic table from the observable signal backwards to the cause, because in practice you notice the symptom long before you can name the problem.</li>
+          <li><strong>Designing the two diagrams:</strong> I hand-coded the accuracy trap comparison and the drift decay chart in SVG, choosing those two because both describe a situation where the numbers look fine and the system is failing.</li>
+          <li><strong>Grounding it in the literature:</strong> I connected each section to established sources &mdash; SMOTE for minority-class synthesis, the concept drift adaptation survey, Little and Rubin on missing data, and the hidden technical debt paper on post-deployment maintenance.</li>
+        </ol>
+
+        <h2>Tools &amp; Technologies Used</h2>
+        <ul>
+          <li>Machine learning data preparation concepts (imputation, resampling, class weighting, threshold tuning)</li>
+          <li>Evaluation metrics (precision, recall, F1, precision-recall AUC, confusion matrix)</li>
+          <li>Model monitoring and retraining concepts (data drift vs. concept drift)</li>
+          <li>HTML &amp; CSS (the guide, consistent with this portfolio's design system)</li>
+          <li>Hand-coded SVG (both diagrams drawn as code)</li>
+          <li>GitHub Pages (public hosting, free to share)</li>
+        </ul>
+
+        <h2>Value Proposition</h2>
+        <h3>Unique Value</h3>
+        <p>
+          Explaining a technique proves you studied it; explaining the <em>trap</em> proves you
+          understand it. Each section of this guide is built around the plausible wrong answer
+          &mdash; why deleting incomplete rows can erase the exact pattern you are predicting,
+          why the higher-accuracy model is the useless one, why a model can decay without a
+          single error appearing in the logs. Producing this also demonstrates that I can write
+          documentation other people can act on, which is a distinct and undervalued skill in
+          technical teams.
+        </p>
+        <h3>Relevance</h3>
+        <p>
+          These three problems are close to universal in applied machine learning, and they are
+          the ones tutorials skip because tutorial datasets arrive clean. For classmates, this
+          is a reference to keep open during a project. For an employer, it demonstrates that I
+          think about production reality &mdash; maintenance, monitoring, and the cost of
+          different kinds of error &mdash; and not only about getting a model to train.
+        </p>
+
+        <h2>References</h2>
+        <ul>
+          <li>Chawla, N. V., Bowyer, K. W., Hall, L. O., &amp; Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. <em>Journal of Artificial Intelligence Research, 16</em>, 321&ndash;357.</li>
+          <li>Gama, J., &Zcaron;liobait&#279;, I., Bifet, A., Pechenizkiy, M., &amp; Bouchachia, A. (2014). A survey on concept drift adaptation. <em>ACM Computing Surveys, 46</em>(4), 1&ndash;37.</li>
+          <li>Little, R. J. A., &amp; Rubin, D. B. (2019). <em>Statistical analysis with missing data</em> (3rd ed.). Wiley.</li>
+          <li>Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., &amp; Dennison, D. (2015). Hidden technical debt in machine learning systems. <em>Advances in Neural Information Processing Systems, 28</em>.</li>
+        </ul>
+      </article>
+
+      <aside class="artifact-meta">
+        <h4>Course</h4>
+        <ul><li>AIML-500 &middot; Workshop 4 &middot; Data Challenges</li></ul>
+        <h4>Type</h4>
+        <ul><li>Field guide / reference resource</li></ul>
+        <h4>Tools</h4>
+        <ul>
+          <li>ML data preparation</li>
+          <li>Evaluation metrics</li>
+          <li>HTML / CSS / SVG</li>
+          <li>GitHub Pages</li>
+        </ul>
+        <h4>Date</h4>
+        <ul><li>August 2026</li></ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">Dominic<span>&nbsp;Ndondo</span></div>
+          <p>A professional portfolio and resource site — evidence of growth in AI and machine learning at Indiana Wesleyan University.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../artifacts.html">Artifacts</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Dominic Ndondo · Built for AIML-500, Indiana Wesleyan University
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
